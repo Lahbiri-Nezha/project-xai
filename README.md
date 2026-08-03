@@ -135,3 +135,23 @@ docker compose up -d app               # http://localhost:3000
 `docker-compose.yml` démarre **PostgreSQL 16** (healthcheck), **MinIO** avec création automatique du bucket `sales-exports` (lecture publique) et **l'app** branchée sur les deux. En cas d'indisponibilité de MinIO, les exports retombent automatiquement sur le téléchargement Blob local.
 
 L'image runtime : Node 22 slim, utilisateur non-root, `EXPOSE 3000`, healthcheck `/login`, variable `DATABASE_URL` injectable, `prisma/` embarqué pour un job de migration au déploiement. Déployable tel quel sur tout hôte Docker (ou en base pour Vercel/Fly avec `npm run build` standard).
+
+### Publication automatisée de l'image (GitHub Container Registry)
+
+Un tag `v*` poussé déclenche le workflow [`.github/workflows/release.yml`](.github/workflows/release.yml) qui construit l'image et la publie sur GHCR — déjà testé en réel (tag `v0.1.0`) :
+
+```bash
+git tag v1.0.0 && git push origin v1.0.0
+# -> ghcr.io/lahbiri-nezha/sales-insight:v1.0.0  (et :latest)
+```
+
+Puis, sur tout hôte Docker, remplacer l'étape 1 par un simple tirage (un seul `docker pull`, le `docker build` devient inutile) :
+
+```bash
+docker pull ghcr.io/lahbiri-nezha/sales-insight:v0.1.0
+docker tag ghcr.io/lahbiri-nezha/sales-insight:v0.1.0 sales-insight:prod
+# puis étapes 2 du bloc ci-dessus
+```
+
+> Récupérer l'image d'un repo privé exige un token avec le scope `read:packages` :
+> `gh auth refresh -h github.com -s read:packages,write:packages` (les Actions publient déjà via le token intégré du workflow, sans action requise).
