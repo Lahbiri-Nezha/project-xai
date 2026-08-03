@@ -39,12 +39,16 @@
     "compliance": "الامتثال",
     "settings": "الإعدادات",
     "myOrganization": "مؤسستي",
-    "leadsThisMonth": "{used} / {total} عميلًا محتملًا هذا الشهر",
+    "leadsThisMonth": "{used} من أصل {total} عميلاً محتملاً هذا الشهر",
     "upgradePlan": "ترقية الخطة ←"
   },
   "topbar": {
     "searchPlaceholder": "ابحث عن العملاء المحتملين والشركات...",
-    "notifications": "الإشعارات"
+    "notifications": "الإشعارات",
+    "noNotifications": "لا توجد إشعارات حالياً",
+    "myProfile": "ملفي الشخصي",
+    "switchWorkspace": "تغيير مساحة العمل",
+    "signOut": "تسجيل الخروج"
   },
   "auth": {
     "login": {
@@ -184,7 +188,7 @@
     "verified": "موثّق"
   },
   "leads": {
-    "title": "المنصب",
+    "title": "العملاء المحتملون",
     "add": "إضافة",
     "export": "تصدير",
     "exporting": "جارٍ التصدير...",
@@ -349,7 +353,7 @@
     "suggestion2": "حلل خط الأنابيب هذا الشهر",
     "suggestion3": "اشرح كيف تُحسب الدرجات",
     "suggestion4": "أي العملاء يحتاجون إلى اهتمام؟",
-    "suggestions": "مقترح",
+    "suggestions": "اقتراحات",
     "inputPlaceholder": "اسأل عن عملائك أو خط الأنابيب أو الدرجات...",
     "send": "إرسال",
     "rateHelpful": "إجابة مفيدة",
@@ -460,7 +464,7 @@
     "unlimited": "حجم غير محدود من العملاء",
     "leadsPerMonth": "{count} عميل/شهر",
     "currentPlan": "الخطة الحالية",
-    "leadsUsed": "العملاء المستخدمون هذا الشهر",
+    "leadsUsed": "العملاء المحتملون المستهلكون هذا الشهر",
     "cancelTitle": "إلغاء الاشتراك",
     "cancelDesc": "العودة إلى الخطة المجانية في نهاية الفترة الحالية.",
     "cancelConfirm": "تأكيد إلغاء الاشتراك؟",

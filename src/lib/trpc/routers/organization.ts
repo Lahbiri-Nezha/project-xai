@@ -79,13 +79,22 @@ export const organizationRouter = router({
   }),
 
   me: protectedProcedure.query(async ({ ctx }) => {
-    const org = await ctx.prisma.organization.findUnique({
-      where: { id: ctx.orgId },
-      select: { name: true },
-    });
+    const [org, memberships] = await Promise.all([
+      ctx.prisma.organization.findUnique({
+        where: { id: ctx.orgId },
+        select: { name: true },
+      }),
+      ctx.prisma.organizationMembership.findMany({
+        where: { userId: ctx.session.user.id },
+        select: { organizationId: true },
+      }),
+    ]);
     return {
       orgName: org?.name ?? null,
       userName: ctx.session.user.name ?? ctx.session.user.email?.split("@")[0] ?? null,
+      userEmail: ctx.session.user.email ?? null,
+      userImage: ctx.session.user.image ?? null,
+      orgCount: memberships.length,
     };
   }),
 });

@@ -108,6 +108,95 @@ async function explainLeadScoreForOrg(
   };
 }
 
+const FACTOR_LABELS: Record<string, string> = {
+  company_size: "Taille de l'entreprise",
+  buying_signals: "Signaux d'achat",
+  contact_quality: "Qualité du contact",
+  company_profile: "Profil de l'entreprise",
+  tech_fit: "Adéquation technique",
+  seniority: "Seniorité du décideur",
+};
+
+function extractLeadRef(message: string): string | null {
+  const patterns = [
+    /(?:explique|expliquer|pourquoi|score\s+(?:de|pour))\s+(?:moi\s+)?(?:le\s+score\s+)?(?:de\s+)?([a-zàâäéèêëîïôöùûüç][a-zàâäéèêëîïôöùûüç'’ -]{1,40})/i,
+    /(?:notes?\s+de|points\s+de)\s+([a-zàâäéèêëîïôöùûüç][a-zàâäéèêëîïôöùûüç'’ -]{1,40})/i,
+  ];
+  let ref: string | null = null;
+  for (const pattern of patterns) {
+    const match = message.match(pattern);
+    if (match) {
+      ref = match[1].trim();
+      break;
+    }
+  }
+  if (!ref) return null;
+  const generic = new Set([
+    "moi",
+    "la",
+    "le",
+    "les",
+    "des",
+    "du",
+    "de",
+    "ce",
+    "cette",
+    "ces",
+    "son",
+    "sa",
+    "ses",
+    "mon",
+    "ma",
+    "mes",
+    "score",
+    "notes",
+    "note",
+    "repartition",
+    "repartition",
+    "pipeline",
+    "liste",
+    "top",
+    "leads",
+    "client",
+    "clients",
+    "pour",
+  ]);
+  const clean = ref
+    .split(/[\s-]+/)
+    .filter((word) => !generic.has(word.toLowerCase()))
+    .join(" ");
+  return clean.trim().length >= 2 ? clean : null;
+}
+
+function formatLeadExplanation(lead: {
+  name: string | null;
+  company: string | null;
+  score: number;
+  intent: string;
+  explanation: string | null;
+  factors?: unknown;
+}): string {
+  const lines = [
+    `**Explication du score de ${lead.name ?? "ce lead"}** (${lead.company ?? "société inconnue"}) :`,
+    "",
+    `Score **${lead.score}/100** — intent **${lead.intent}**.`,
+  ];
+  const factors = (lead.factors as { name: string; weight: number; contribution: number; explanation: string }[] | undefined) ?? [];
+  if (factors.length > 0) {
+    lines.push("", "Décomposition du score :");
+    for (const factor of factors) {
+      lines.push(
+        `- ${FACTOR_LABELS[factor.name] ?? factor.name} (poids ${factor.weight}) : ${factor.contribution} pts — ${factor.explanation}`
+      );
+    }
+  }
+  if (lead.explanation) {
+    lines.push("", lead.explanation);
+  }
+  lines.push("", "Souhaitez-vous une recommandation d'action pour ce lead ?");
+  return lines.join("\n");
+}
+
 function formatLeads(leads: {
   firstName: string | null;
   lastName: string | null;
@@ -181,7 +270,13 @@ function createLLMStream(orgId: string, messages: CopilotMessage[]): CopilotStre
     system: `You are an AI sales copilot for Sales Insight. You help sales reps understand their pipeline,
 analyze leads, and get actionable recommendations. You have access to the organization's lead data.
 
-Always be specific. Reference actual lead names, scores, and signals when discussing them.
+Always answer the exact question in the user's LATEST message. If the user names or asks about a
+specific lead (for example "explique Majda" or "pourquoi Karim a un score de 95"), call the
+explainLeadScore tool with that lead's reference (name, email or company) and explain WHY that
+specific lead got its score, using its factor breakdown and explanation. Do not reply with the same
+ranked list a second time.
+
+Reference actual lead names, scores, and signals when discussing them.
 Keep responses concise and actionable. Respond in French by default.`,
     messages,
     tools: buildLLMTools(orgId),
@@ -208,34 +303,32 @@ function createLocalStream(orgId: string, messages: CopilotMessage[]): CopilotSt
       if (/pipeline|stats|statistiques|mois|combien/.test(lower)) {
         return formatPipeline(await getPipelineStatsForOrg(orgId));
       }
-      if (/score|expliqu|pourquoi|calcul|priorit/.test(lower)) {
-        const ref =
-          lower.match(
-            /pour\s+([^?.]+)/
-          )?.[1]?.trim();
-        const result = await explainLeadScoreForOrg(orgId, ref ?? undefined);
-        if (result.lead) {
-          return [
-            `**Explication du score de ${result.lead.name}** (${result.lead.company ?? "société inconnue"}) :`,
-            "",
-            `Score **${result.lead.score}/100** — intent **${result.lead.intent}**.`,
-            "",
-            result.lead.explanation ??
-              "Aucune explication détaillée n'est disponible pour ce lead.",
-            "",
-            "Souhaitez-vous le détail des facteurs ou une recommandation d'action ?",
-          ].join("\n");
+      if (/score|expliqu|pourquoi|calcul|priorit|notes/.test(lower)) {
+        const ref = extractLeadRef(lastUser);
+        if (ref) {
+          const result = await explainLeadScoreForOrg(orgId, ref);
+          if (result.lead) {
+            return formatLeadExplanation(result.lead);
+          }
+          if (!/\b(repartition|pipeline|liste|top|mois|pipeline)\b/.test(ref)) {
+            const top5 = await explainLeadScoreForOrg(orgId);
+            const lines = (top5.leads ?? [])
+              .map(
+                (l, i) =>
+                  `${i + 1}. **${l.name}** (${l.company ?? "société inconnue"}) — ${l.score}/100 — ${l.intent}`
+              )
+              .join("\n");
+            return `Je n'ai trouvé aucun lead correspondant à « ${ref} ». Voici la répartition de vos top leads :\n\n${lines}`;
+          }
         }
-        if (result.leads) {
-          const lines = result.leads
-            .map(
-              (l, i) =>
-                `${i + 1}. **${l.name}** (${l.company ?? "société inconnue"}) — ${l.score}/100 — ${l.intent}`
-            )
-            .join("\n");
-          return `Voici comment sont répartis vos top leads :\n\n${lines}`;
-        }
-        return "Je n'ai pas trouvé de lead correspondant à votre demande. Donnez-moi un nom, une société ou un email.";
+        const top5 = await explainLeadScoreForOrg(orgId);
+        const lines = (top5.leads ?? [])
+          .map(
+            (l, i) =>
+              `${i + 1}. **${l.name}** (${l.company ?? "société inconnue"}) — ${l.score}/100 — ${l.intent}`
+          )
+          .join("\n");
+        return `Voici la répartition des scores de vos leads prioritaires :\n\n${lines}`;
       }
       return [
         "Je suis votre **Copilot Sales Insight**. Je peux :",

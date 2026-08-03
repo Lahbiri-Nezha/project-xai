@@ -44,7 +44,11 @@
   },
   "topbar": {
     "searchPlaceholder": "Search leads, companies...",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "noNotifications": "No notifications yet",
+    "myProfile": "My profile",
+    "switchWorkspace": "Switch workspace",
+    "signOut": "Sign out"
   },
   "auth": {
     "login": {
