@@ -34,6 +34,30 @@ function mergeFilters(
   };
 }
 
+const KEYWORD_STOPWORDS = new Set([
+  "a",
+  "au",
+  "aux",
+  "avec",
+  "ce",
+  "ces",
+  "dans",
+  "de",
+  "des",
+  "du",
+  "en",
+  "et",
+  "la",
+  "le",
+  "les",
+  "pour",
+  "que",
+  "qui",
+  "sur",
+  "un",
+  "une",
+]);
+
 function buildWhere(
   filters: CompanyFilters,
   keyword?: string
@@ -62,11 +86,18 @@ function buildWhere(
     where.buyingSignals = { some: { type: { in: filters.signalTypes } } };
   }
   if (keyword) {
-    where.OR = [
-      { name: { contains: keyword, mode: "insensitive" } },
-      { domain: { contains: keyword, mode: "insensitive" } },
-      { industry: { contains: keyword, mode: "insensitive" } },
-    ];
+    const tokens = keyword
+      .split(/[^a-z0-9àâäéèêëîïôöùûüç]+/i)
+      .map((t) => t.toLowerCase())
+      .filter((t) => t.length > 2 && !KEYWORD_STOPWORDS.has(t));
+    if (tokens.length > 0) {
+      where.OR = tokens.flatMap((token) => [
+        { name: { contains: token, mode: "insensitive" } },
+        { domain: { contains: token, mode: "insensitive" } },
+        { industry: { contains: token, mode: "insensitive" } },
+        { headquartersCity: { contains: token, mode: "insensitive" } },
+      ]);
+    }
   }
 
   return where;

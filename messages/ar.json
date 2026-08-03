@@ -114,6 +114,9 @@
     "recentContacts": "جهات اتصال حديثة",
     "noContacts": "لا توجد جهات اتصال بعد. نفّذ بحثًا في المستكشف.",
     "priorityAccounts": "الحسابات ذات الأولوية",
+    "prospectorLink": "المستكشف",
+    "sequencesLink": "التسلسلات",
+    "savedSearchesLink": "عمليات البحث المحفوظة",
     "noAccounts": "لا توجد حسابات مفهرسة."
   },
   "prospector": {

@@ -114,6 +114,9 @@
     "recentContacts": "Recent contacts",
     "noContacts": "No contacts yet. Run a search in Prospector.",
     "priorityAccounts": "Priority accounts",
+    "prospectorLink": "Prospector",
+    "sequencesLink": "Sequences",
+    "savedSearchesLink": "Saved searches",
     "noAccounts": "No indexed accounts."
   },
   "prospector": {

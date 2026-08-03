@@ -14,6 +14,8 @@ jobs:
   quality:
     name: Qualité (tsc, lint, tests, build)
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sales_insight_test
     steps:
       - uses: actions/checkout@v4
 
