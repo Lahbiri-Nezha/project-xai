@@ -115,3 +115,23 @@ Par défaut, les exports CSV sont générés côté serveur et téléchargés vi
 3. Le client télécharge l'URL S3 ; si l'upload échoue ou si S3 n'est pas configuré, il retombe automatiquement sur le stream Blob local. Aucune clé ne change de comportement existant.
 
 MinIO local : `docker run -p 9000:9000 -e MINIO_ROOT_USER=minioadmin -e MINIO_ROOT_PASSWORD=minioadmin minio/minio server /data` puis créer le bucket via la console.
+
+## Déploiement Docker (production)
+
+Le projet compile en **sortie standalone** (`output: "standalone"`) et livre une image de production multi-stage (`Dockerfile`), testée et validée en réel (image `sales-insight:prod`, `/` 200, `/login` 200, `/api/inngest` 200, `/dashboard` → 307 `/login`).
+
+```bash
+# 1. Image de production (DATABASE_URL factice suffit au build : aucune connexion)
+docker build -t sales-insight:prod \
+  --build-arg DATABASE_URL=postgresql://postgres:postgres@db:5432/sales_insight .
+
+# 2. Lancer (Postgres + MinIO + app) — stack locale complète
+docker compose up -d db minio          # infra
+# depuis l'hôte, la base fraîchement créée (localhost:5432) :
+npx prisma migrate deploy && npx prisma db seed
+docker compose up -d app               # http://localhost:3000
+```
+
+`docker-compose.yml` démarre **PostgreSQL 16** (healthcheck), **MinIO** avec création automatique du bucket `sales-exports` (lecture publique) et **l'app** branchée sur les deux. En cas d'indisponibilité de MinIO, les exports retombent automatiquement sur le téléchargement Blob local.
+
+L'image runtime : Node 22 slim, utilisateur non-root, `EXPOSE 3000`, healthcheck `/login`, variable `DATABASE_URL` injectable, `prisma/` embarqué pour un job de migration au déploiement. Déployable tel quel sur tout hôte Docker (ou en base pour Vercel/Fly avec `npm run build` standard).

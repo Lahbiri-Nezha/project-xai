@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.env
+.env.*
+!.env.example
+test-results
+playwright-report
+e2e/.auth
+*.log
+Dockerfile
+docker-compose.yml
+.dockerignore
+SALES-INSIGHT-PLAN-IMPLEMENTATION.md
