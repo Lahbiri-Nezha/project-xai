@@ -1,0 +1,444 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────
+
+enum Plan {
+  FREE
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+enum OrgRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  UNQUALIFIED
+  CONVERTED
+  LOST
+}
+
+enum Intent {
+  COLD
+  WARM
+  HOT
+}
+
+enum SignalType {
+  FUNDING
+  HIRING
+  WEBSITE_VISIT
+  EMAIL_OPEN
+  PRICING_PAGE
+  TECH_MATCH
+  CONTENT_DOWNLOAD
+  MEETING_BOOKED
+  NEWS
+  ORG_CHANGE
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  TOOL
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING
+  VERIFIED
+  INVALID
+}
+
+enum ListType {
+  LEADS
+  ACCOUNTS
+}
+
+enum ComplianceType {
+  OPT_OUT
+  DO_NOT_CALL
+  SUPPRESSED
+}
+
+enum Channel {
+  EMAIL
+  CALL
+  TASK
+}
+
+enum SequenceEnrollmentStatus {
+  PENDING
+  ACTIVE
+  DONE
+  PAUSED
+  BOUNCED
+}
+
+// ─── Auth ────────────────────────────────────────
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  name             String?
+  emailVerified    Boolean   @default(false)
+  image            String?
+  twoFactorEnabled Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  sessions      Session[]
+  accounts      Account[]
+  organizations OrganizationMembership[]
+  twoFactor     TwoFactor?
+}
+
+model TwoFactor {
+  id          String   @id @default(cuid())
+  secret      String?
+  backupCodes String?
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Session {
+  id                   String   @id @default(cuid())
+  expiresAt            DateTime
+  token                String   @unique
+  ipAddress            String?
+  userAgent            String?
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activeOrganizationId String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Account {
+  id                     String   @id @default(cuid())
+  accountId              String
+  providerId             String
+  userId                 String
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  password               String?
+  accessToken            String?
+  refreshToken           String?
+  idToken                String?
+  accessTokenExpiresAt   DateTime?
+  refreshTokenExpiresAt  DateTime?
+  scope                  String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+// ─── Multi-Tenant ────────────────────────────────
+
+model Organization {
+  id                   String   @id @default(cuid())
+  name                 String
+  slug                 String   @unique
+  plan                 Plan     @default(FREE)
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?  @unique
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  members              OrganizationMembership[]
+  leads                Lead[]
+  copilotChats         CopilotChat[]
+  apiKeys              ApiKey[]
+  savedSearches        SavedSearch[]
+  lists                List[]
+  sequences            Sequence[]
+  complianceFlags      ComplianceFlag[]
+  accessLogs           AccessLog[]
+}
+
+model OrganizationMembership {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  role           OrgRole      @default(MEMBER)
+  createdAt      DateTime     @default(now())
+
+  @@unique([userId, organizationId])
+}
+
+// ─── Leads ───────────────────────────────────────
+
+model Lead {
+  id                  String   @id @default(cuid())
+  organizationId      String
+  organization        Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  firstName           String?
+  lastName            String?
+  email               String?
+  phone               String?
+  title               String?
+  companyId           String?
+  company             Company? @relation(fields: [companyId], references: [id])
+  score               Float    @default(0)
+  scoreExplainability Json?
+  confidenceEmail     Float?
+  confidencePhone     Float?
+  confidenceTitle     Float?
+  verification        VerificationStatus @default(UNVERIFIED)
+  lastEnrichedAt      DateTime?
+  source              String?
+  intent              Intent   @default(COLD)
+  status              LeadStatus @default(NEW)
+  signals             Signal[]
+  activities          Activity[]
+  dataSources         DataSource[]
+  listItems           ListItem[]
+  enrollments         SequenceEnrollment[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([organizationId, score(sort: Desc)])
+  @@index([organizationId, intent])
+}
+
+model Company {
+  id                String   @id @default(cuid())
+  name              String
+  domain            String?
+  industry          String?
+  employeeCount     Int?
+  fundingStage      String?
+  fundingAmount     Float?
+  revenueEstimate   Float?
+  headquartersCity  String?
+  headquartersCountry String?
+  techStack         String[]
+  lastEnrichedAt    DateTime?
+  lastVerifiedAt    DateTime?
+  raw               Json?
+  leads             Lead[]
+  buyingSignals     BuyingSignal[]
+  dataSources       DataSource[]
+  listItems         ListItem[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([domain])
+}
+
+model Signal {
+  id        String     @id @default(cuid())
+  leadId    String
+  lead      Lead       @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  type      SignalType
+  value     String
+  weight    Float      @default(1.0)
+  source    String?
+  createdAt DateTime   @default(now())
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  type      String
+  metadata  Json?
+  createdAt DateTime @default(now())
+}
+
+// ─── AI Copilot ──────────────────────────────────
+
+model CopilotChat {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  title          String?
+  messages       CopilotMessage[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model CopilotMessage {
+  id        String       @id @default(cuid())
+  chatId    String
+  chat      CopilotChat  @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  role      MessageRole
+  content   String
+  toolCalls Json?
+  rating    Int?
+  createdAt DateTime     @default(now())
+}
+
+// ─── API Keys ────────────────────────────────────
+
+model ApiKey {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name           String
+  key            String   @unique
+  lastUsedAt     DateTime?
+  createdAt      DateTime @default(now())
+}
+
+// ─── Buying Signal (Domaine 5) ───────────────────
+
+model BuyingSignal {
+  id         String     @id @default(cuid())
+  companyId  String
+  company    Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  type       SignalType
+  intensity  Int        @default(1)
+  source     String?
+  detectedAt DateTime   @default(now())
+
+  @@index([companyId, detectedAt(sort: Desc)])
+}
+
+// ─── Data Source / traçabilité (Domaine 4) ───────
+
+model DataSource {
+  id        String   @id @default(cuid())
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  leadId    String?
+  lead      Lead?    @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  kind      String
+  url       String?
+  payload   Json?
+  fetchedAt DateTime @default(now())
+}
+
+// ─── Compliance (Domaine 9) ──────────────────────
+
+model ComplianceFlag {
+  id             String         @id @default(cuid())
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contactId      String?
+  value          String
+  type           ComplianceType
+  source         String?
+  createdAt      DateTime       @default(now())
+
+  @@index([organizationId])
+}
+
+// ─── Saved Searches & Lists (Domaine 6) ──────────
+
+model SavedSearch {
+  id                String   @id @default(cuid())
+  organizationId    String
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId            String
+  name              String
+  filtersJson       Json
+  notifyFrequency   String   @default("daily")
+  lastResultCount   Int      @default(0)
+  newSinceNotified  Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([organizationId])
+}
+
+model List {
+  id             String     @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  ownerId        String
+  name           String
+  type           ListType   @default(LEADS)
+  items          ListItem[]
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@index([organizationId])
+}
+
+model ListItem {
+  id        String    @id @default(cuid())
+  listId    String
+  list      List      @relation(fields: [listId], references: [id], onDelete: Cascade)
+  leadId    String?
+  lead      Lead?     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  companyId String?
+  company   Company?  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+
+  @@unique([listId, leadId])
+  @@unique([listId, companyId])
+}
+
+// ─── Sequences & Engagement (Domaine 7) ──────────
+
+model Sequence {
+  id             String                 @id @default(cuid())
+  organizationId String
+  organization   Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name           String
+  active         Boolean                @default(true)
+  steps          SequenceStep[]
+  enrollments    SequenceEnrollment[]
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+
+  @@index([organizationId])
+}
+
+model SequenceStep {
+  id         String   @id @default(cuid())
+  sequenceId String
+  sequence   Sequence @relation(fields: [sequenceId], references: [id], onDelete: Cascade)
+  order      Int
+  channel    Channel
+  template   String?
+  delayDays  Int      @default(1)
+}
+
+model SequenceEnrollment {
+  id         String                    @id @default(cuid())
+  sequenceId String
+  sequence   Sequence                  @relation(fields: [sequenceId], references: [id], onDelete: Cascade)
+  leadId     String
+  lead       Lead                      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  status     SequenceEnrollmentStatus  @default(PENDING)
+  stepIndex  Int                       @default(0)
+  nextStepAt DateTime?
+  createdAt  DateTime                  @default(now())
+
+  @@index([sequenceId, status])
+}
+
+// ─── Audit des accès (Domaine 1) ─────────────────
+
+model AccessLog {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  action         String
+  entityType     String
+  entityId       String
+  createdAt      DateTime @default(now())
+
+  @@index([organizationId, createdAt(sort: Desc)])
+}
