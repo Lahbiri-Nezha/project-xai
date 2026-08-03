@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Qualité (tsc, lint, tests, build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dependances
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Tests unitaires
+        run: npm test
+
+      - name: Build production
+        run: npm run build
+
+  e2e:
+    name: E2E (Playwright)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: sales_insight_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sales_insight_test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dependances
+        run: npm ci
+
+      - name: Creer le fichier .env (variables CI)
+        run: |
+          cat > .env <<'EOF'
+          DATABASE_URL=postgresql://postgres:postgres@localhost:5432/sales_insight_test
+          BETTER_AUTH_SECRET=ci-secret-a-deeply-unsecure-standin-for-github-actions
+          BETTER_AUTH_URL=http://localhost:3000
+          NEXT_PUBLIC_APP_URL=http://localhost:3000
+          INNGEST_DEV=1
+          EOF
+
+      - name: Migrations Prisma
+        run: npx prisma migrate deploy
+
+      - name: Seed (donnees demo)
+        run: npx prisma db seed
+
+      - name: Installer Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Tests de bout en bout
+        run: npm run test:e2e
+
+      - name: Archiver les artefacts E2E en cas d'echec
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
