@@ -2,6 +2,8 @@
 
 Plateforme de sales intelligence pour le marché Maroc / MENA — prospection B2B, scoring IA expliqué, enrichment multi-source, sequences d'engagement et conformité RGPD / loi 09-08.
 
+[![CI](https://github.com/Lahbiri-Nezha/sales-insight/actions/workflows/ci.yml/badge.svg)](https://github.com/Lahbiri-Nezha/sales-insight/actions/workflows/ci.yml)
+
 ## Stack
 
 - **Next.js 16** (App Router, Turbopack) + **React 19**
