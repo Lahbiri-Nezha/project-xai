@@ -120,6 +120,7 @@ export async function POST(request: NextRequest) {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "no-cache, no-transform",
+      "X-Copilot-Chat-Id": chatId!,
     },
   });
 }

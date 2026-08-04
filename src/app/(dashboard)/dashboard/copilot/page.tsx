@@ -138,12 +138,12 @@ export default function CopilotPage() {
           )
         );
 
-        const refreshed = await listChats.refetch();
-        const latest = refreshed.data?.[0];
-        setChatIdOverride(latest?.id ?? null);
+        const replyChatId =
+          res.headers.get("X-Copilot-Chat-Id") ?? activeChatId ?? null;
+        setChatIdOverride(replyChatId);
         setHydrated(true);
         setEphemeral([]);
-        if (latest?.id) {
+        if (replyChatId && replyChatId === activeChatId) {
           history.refetch().catch(() => {});
         }
       } catch (err) {
@@ -159,7 +159,7 @@ export default function CopilotPage() {
         setLoading(false);
       }
     },
-    [activeChatId, input, loading, listChats, history, t, setInput]
+    [activeChatId, input, loading, history, t, setInput]
   );
 
   const handleRating = async (message: Message, rating: number) => {
