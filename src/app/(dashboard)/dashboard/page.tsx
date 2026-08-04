@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import TopBar from "@/components/dashboard/TopBar";
 import { Users, TrendingUp, Zap, ShieldCheck, ArrowUpRight, CheckCircle2, Bell } from "lucide-react";
 import { motion } from "framer-motion";
@@ -51,6 +52,13 @@ export default function DashboardPage() {
     },
   });
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   const pendingTasks = ((tasks.data ?? []) as unknown as TaskView[])
     .filter((t) => t.status === "ACTIVE" || t.status === "PENDING")
     .sort((a, b) => {
@@ -67,7 +75,8 @@ export default function DashboardPage() {
   const s = stats.data;
   const growth = s ? pctChange(s.newLeadsLast30d, s.newLeadsPrev30d) : null;
 
-  const firstName = me.data?.userName?.split(" ")[0];
+  const firstName = mounted ? me.data?.userName?.split(" ")[0] : undefined;
+  const orgName = mounted ? me.data?.orgName : undefined;
 
   const statCards = [
     { label: t("totalLeads"), value: s ? String(s.totalLeads) : "—", change: s && s.totalLeads > 0 ? (growth ?? t("new")) : t("new"), icon: Users, color: "text-lime" },
@@ -108,10 +117,10 @@ export default function DashboardPage() {
             {firstName ? t("welcomeWithName", { name: firstName }) : t("welcomeGeneric")}
           </h2>
           <p className="mt-1 text-sm text-text-secondary">
-            {me.data?.orgName
-              ? t("orgActivity", { org: me.data.orgName })
+            {orgName
+              ? t("orgActivity", { org: orgName })
               : t("pipelineActivity")}{" "}
-            {s?.hotLeads ? t("hotLeadsAttention", { count: s.hotLeads }) : null}
+            {mounted && s?.hotLeads ? t("hotLeadsAttention", { count: s.hotLeads }) : null}
           </p>
         </div>
 

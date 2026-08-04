@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Bell, BellOff, Search, LogOut, UserRound, Building2, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -37,6 +37,12 @@ export default function TopBar({ title }: { title: string }) {
   } | undefined;
 
   const [orgs, setOrgs] = useState<{ id: string; name: string }[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   const name = me?.userName || "…";
   const email = me?.userEmail ?? "";
@@ -106,11 +112,11 @@ export default function TopBar({ title }: { title: string }) {
             aria-label={t("myProfile")}
           >
             <Avatar.Root className="h-8 w-8 rounded-full">
-              {me?.userImage ? (
+              {mounted && me?.userImage ? (
                 <Avatar.Image src={me.userImage} alt={name} className="h-8 w-8 rounded-full object-cover" />
               ) : null}
               <Avatar.Fallback className="h-8 w-8 rounded-full bg-gradient-to-br from-lime/40 to-lime/10 flex items-center justify-center text-ink text-xs font-bold">
-                {initials(name)}
+                {initials(mounted ? name : "")}
               </Avatar.Fallback>
             </Avatar.Root>
           </Menu.Trigger>
