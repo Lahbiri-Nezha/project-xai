@@ -276,6 +276,11 @@ explainLeadScore tool with that lead's reference (name, email or company) and ex
 specific lead got its score, using its factor breakdown and explanation. Do not reply with the same
 ranked list a second time.
 
+When the user sends a casual, conversational or unrelated message (a greeting, small talk, a thank
+you, or a question outside your data), acknowledge it naturally and briefly, then redirect to what
+you can help with (top leads, pipeline analysis, score explanations). Never return the same canned
+menu verbatim for two different inputs.
+
 Reference actual lead names, scores, and signals when discussing them.
 Keep responses concise and actionable. Respond in French by default.`,
     messages,
@@ -293,6 +298,33 @@ function createLocalStream(orgId: string, messages: CopilotMessage[]): CopilotSt
 
   const answer = (async (): Promise<string> => {
     try {
+      const hasIntent = /(top|chauds?|hot|meilleur|priorit|pipeline|stats|statistiques|score|expliqu|pourquoi|calcul|notes|repartition|liste)/.test(
+        lower
+      );
+      if (
+        !hasIntent &&
+        /(^|\s)(bonjour|bonsoir|salut|coucou|hello|hi|hey|yo|salam|slt|bsr)([\s!?,.]|$)/.test(
+          lower
+        )
+      ) {
+        return [
+          "Bonjour ! 👋 Ravi de vous aider.",
+          "",
+          "Je peux **lister vos top leads chauds**, **analyser votre pipeline** ou **expliquer le score** d'un lead (essayez par exemple « explique le score de Majda »).",
+          "",
+          "Que souhaitez-vous analyser ?",
+        ].join("\n");
+      }
+      if (
+        !hasIntent &&
+        /(comment (vas|ça|tu)|how are|ça va|tu vas bien|merci|thanks|thx)/.test(lower)
+      ) {
+        return [
+          "Merci, tout va bien de mon côté ! 😊",
+          "",
+          "Dites-moi ce que vous voulez analyser : vos **top leads chauds**, votre **pipeline**, ou le **score d'un lead** en particulier.",
+        ].join("\n");
+      }
       if (/(top|chauds?|hot|meilleur|priorit)/.test(lower)) {
         const leads = await getLeadsForOrg(orgId, { intent: "HOT", limit: 5 });
         if (leads.length === 0) {
@@ -330,8 +362,9 @@ function createLocalStream(orgId: string, messages: CopilotMessage[]): CopilotSt
           .join("\n");
         return `Voici la répartition des scores de vos leads prioritaires :\n\n${lines}`;
       }
+      const trimmed = lastUser.trim().replace(/\s+/g, " ").slice(0, 60);
       return [
-        "Je suis votre **Copilot Sales Insight**. Je peux :",
+        `Je n'ai pas de réponse pour « ${trimmed} ». Voici ce que je peux faire pour vous :`,
         "",
         "- Lister vos **top leads chauds** (score élevé, signaux d'achat)",
         "- Analyser votre **pipeline** (répartition HOT/WARM/COLD, score moyen)",

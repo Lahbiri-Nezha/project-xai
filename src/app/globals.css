@@ -113,6 +113,12 @@
   html {
     @apply font-sans scroll-smooth;
   }
+  html[lang="ar"] body {
+    font-family: var(--font-arabic), var(--font-sans), system-ui, sans-serif;
+  }
+  html[lang="ar"] .font-serif {
+    font-family: var(--font-arabic), var(--font-serif), Georgia, serif;
+  }
 }
 
 @layer utilities {
