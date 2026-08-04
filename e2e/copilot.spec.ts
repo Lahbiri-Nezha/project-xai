@@ -17,7 +17,7 @@ async function openCopilot(page: Page): Promise<AskCtx> {
 }
 
 async function ask(ctx: AskCtx, text: string): Promise<void> {
-  const { page, input, sendBtn } = ctx;
+  const { input, sendBtn } = ctx;
   await input.fill(text);
   // Le bouton n'est actif que si loading est false -> garantit que le
   // stream précédent est terminé avant d'envoyer le message suivant.
