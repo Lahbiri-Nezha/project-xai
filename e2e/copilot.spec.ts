@@ -63,6 +63,7 @@ test("topbar: menu profil et panneau notifications fonctionnels", async ({ page 
 
   const avatar = page.locator("button[aria-label='Mon profil']");
   await expect(avatar).toBeVisible();
+  await expect(avatar).toContainText(/[A-Za-z]/);
   await avatar.click();
   await expect(page.getByText("Se déconnecter")).toBeVisible();
   await page.keyboard.press("Escape");
