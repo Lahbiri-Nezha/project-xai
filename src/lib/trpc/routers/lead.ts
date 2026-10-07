@@ -258,14 +258,16 @@ export const leadRouter = router({
       let companyId: string | undefined;
       if (input.companyName) {
         const existing = await ctx.prisma.company.findFirst({
-          where: { name: { contains: input.companyName, mode: "insensitive" } },
+          where: {
+            organizationId: ctx.orgId,
+            name: { contains: input.companyName, mode: "insensitive" },
+          },
         });
-        const company = await ctx.prisma.company.upsert({
-          where: { domain: existing?.domain ?? input.companyName.toLowerCase() },
-          update: {},
-          create: {
+        const company = existing ?? await ctx.prisma.company.create({
+          data: {
+            organizationId: ctx.orgId,
             name: input.companyName,
-            domain: existing?.domain ?? input.companyName.toLowerCase(),
+            domain: input.companyName.toLowerCase(),
           },
         });
         companyId = company.id;

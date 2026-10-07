@@ -22,9 +22,9 @@ export default function LogoStrip() {
             {[...logos, ...logos, ...logos].map((logo, i) => (
               <div
                 key={`${logo.name}-${i}`}
-                className="mx-8 sm:mx-12 flex items-center gap-2 text-text-muted/40"
+                className="mx-8 sm:mx-12 flex items-center gap-2 text-text-muted"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-md bg-surface-elevated text-xs font-bold text-text-muted/50">
+                <div className="flex h-8 w-8 items-center justify-center rounded-md bg-surface-elevated text-xs font-bold text-text-muted">
                   {logo.letter}
                 </div>
                 <span className="text-lg font-semibold tracking-tight">

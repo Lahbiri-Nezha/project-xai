@@ -64,7 +64,7 @@ export default function SettingsPage() {
             type="text"
             value={orgName}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-lime/50 focus:border-lime"
+            className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand"
           />
         </div>
 
@@ -100,7 +100,7 @@ export default function SettingsPage() {
                   className="flex items-center justify-between rounded-xl bg-surface border border-border px-4 py-3"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-lg bg-lime/10 flex items-center justify-center text-xs font-bold text-lime-dark">
+                    <div className="h-9 w-9 rounded-lg bg-brand/10 flex items-center justify-center text-xs font-bold text-brand-strong">
                       {m.user.name?.[0] ?? m.user.email?.[0]?.toUpperCase() ?? "?"}
                     </div>
                     <div>
@@ -123,7 +123,7 @@ export default function SettingsPage() {
           <button
             onClick={() => update.mutate({ name: orgName.trim() })}
             disabled={update.isPending || !orgName.trim() || orgName.trim() === org?.name}
-            className="bg-lime hover:bg-lime-dark text-ink font-semibold px-6 py-2.5 rounded-lg transition-all hover:-translate-y-0.5 disabled:opacity-50"
+            className="bg-brand hover:bg-brand-strong text-white font-semibold px-6 py-2.5 rounded-lg transition-all hover:-translate-y-0.5 disabled:opacity-50"
           >
             {update.isPending ? t("saving") : t("save")}
           </button>

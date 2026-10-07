@@ -62,8 +62,8 @@ export default function Sidebar() {
     <aside className="w-64 bg-surface border-r border-border flex flex-col h-screen sticky top-0">
       <div className="px-5 py-4 border-b border-border">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-lime">
-            <Zap className="h-4 w-4 text-ink" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand">
+            <Zap className="h-4 w-4 text-white" />
           </div>
           <span className="text-base font-bold tracking-tight text-foreground">
             {t("brand.name")}
@@ -76,7 +76,7 @@ export default function Sidebar() {
         className="mx-3 mt-3 flex items-center justify-between rounded-lg bg-surface-elevated border border-border px-3 py-2 text-sm"
       >
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded bg-lime/20 flex items-center justify-center text-[10px] font-bold text-lime">
+          <div className="h-6 w-6 rounded bg-brand/20 flex items-center justify-center text-[10px] font-bold text-brand">
             {initials(orgName)}
           </div>
           <span className="font-medium text-foreground truncate">{orgName}</span>
@@ -98,7 +98,7 @@ export default function Sidebar() {
               href={item.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-lime/10 text-lime"
+                  ? "bg-brand/10 text-brand"
                   : "text-text-secondary hover:text-foreground hover:bg-surface-elevated"
               }`}
             >
@@ -110,8 +110,8 @@ export default function Sidebar() {
       </nav>
 
       <div className="px-3 py-4 border-t border-border">
-        <div className="rounded-lg bg-lime/5 border border-lime/10 p-3">
-          <p className="text-xs font-semibold text-lime">{sub?.planName ?? "…"}</p>
+        <div className="rounded-lg bg-brand/5 border border-brand/10 p-3">
+          <p className="text-xs font-semibold text-brand">{sub?.planName ?? "…"}</p>
           <p className="text-[10px] text-text-muted mt-0.5">
             {sub
               ? t("nav.leadsThisMonth", {
@@ -122,13 +122,13 @@ export default function Sidebar() {
           </p>
           <div className="mt-2 h-1 rounded-full bg-surface-elevated overflow-hidden">
             <div
-              className={`h-full rounded-full ${usedPct >= 90 ? "bg-lead-low" : "bg-lime"}`}
+              className={`h-full rounded-full ${usedPct >= 90 ? "bg-lead-low" : "bg-brand"}`}
               style={{ width: `${usedPct}%` }}
             />
           </div>
           <Link
             href="/dashboard/settings/billing"
-            className="mt-2 block text-[10px] font-medium text-lime hover:text-lime-dark"
+            className="mt-2 block text-[10px] font-medium text-brand hover:text-brand-strong"
           >
             {t("nav.upgradePlan")}
           </Link>

@@ -26,21 +26,21 @@ export default function WaitlistSection() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <ScrollReveal variant="scaleIn">
           <div className="relative overflow-hidden rounded-3xl bg-surface border border-border-default px-8 py-16 sm:px-16 sm:py-20 text-center">
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-lime/40 to-transparent" />
-            <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-lime/5 blur-3xl -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/40 to-transparent" />
+            <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-brand/5 blur-3xl -translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 right-0 w-48 h-48 rounded-full bg-purple/4 blur-3xl translate-x-1/4 translate-y-1/4" />
 
             <div className="relative z-10 mx-auto max-w-xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-lime/25 bg-lime/8 px-4 py-1.5 mb-6">
-                <div className="h-1.5 w-1.5 rounded-full bg-lime animate-pulse" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-lime-dark">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/8 px-4 py-1.5 mb-6">
+                <div className="h-1.5 w-1.5 rounded-full bg-brand animate-pulse" />
+                <span className="text-xs font-semibold uppercase tracking-wider text-brand-strong">
                   {t("earlyAccess")}
                 </span>
               </div>
 
               <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground leading-tight">
                 <span className="font-serif block text-foreground/85">{t("wlTitle1")}</span>
-                <span className="block mt-1 text-lime-dark">{t("wlTitle2")}</span>
+                <span className="block mt-1 text-brand-strong">{t("wlTitle2")}</span>
               </h2>
 
               <p className="mt-5 text-lg text-text-secondary">
@@ -71,13 +71,13 @@ export default function WaitlistSection() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder={t("wlEmailPlaceholder")}
                       required
-                      className="w-full rounded-xl border border-border-default bg-background pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50 focus:border-lime"
+                      className="w-full rounded-xl border border-border-default bg-background pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand"
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full sm:w-auto bg-lime hover:bg-lime-dark text-white font-semibold px-6 py-3 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-lime/15 inline-flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full sm:w-auto bg-brand hover:bg-brand-strong text-white font-semibold px-6 py-3 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/15 inline-flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {loading ? t("joining") : t("joinWaitlist")}
                     <ArrowRight className="h-4 w-4" />

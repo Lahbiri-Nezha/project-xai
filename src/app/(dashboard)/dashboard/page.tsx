@@ -79,7 +79,7 @@ export default function DashboardPage() {
   const orgName = mounted ? me.data?.orgName : undefined;
 
   const statCards = [
-    { label: t("totalLeads"), value: s ? String(s.totalLeads) : "—", change: s && s.totalLeads > 0 ? (growth ?? t("new")) : t("new"), icon: Users, color: "text-lime" },
+    { label: t("totalLeads"), value: s ? String(s.totalLeads) : "—", change: s && s.totalLeads > 0 ? (growth ?? t("new")) : t("new"), icon: Users, color: "text-brand" },
     { label: t("hotLeads"), value: s ? String(s.hotLeads) : "—", change: s && s.totalLeads > 0 ? t("pctOfPipeline", { pct: Math.round((s.hotLeads / s.totalLeads) * 100) }) : "—", icon: TrendingUp, color: "text-lead-excellent" },
     { label: t("avgScore"), value: s ? String(s.avgScore) : "—", change: t("average"), icon: Zap, color: "text-purple" },
     { label: t("verifiedContacts"), value: s ? String(s.verifiedLeads) : "—", change: s ? t("ofTotal", { total: s.totalLeads }) : "—", icon: ShieldCheck, color: "text-lead-medium" },
@@ -109,8 +109,8 @@ export default function DashboardPage() {
     <>
       <TopBar title={t("navOverview")} />
       <div className="flex-1 p-6 space-y-6 overflow-auto">
-        <div className="rounded-xl bg-gradient-to-r from-lime/8 to-surface border border-border p-6">
-          <p className="text-xs font-semibold uppercase tracking-wider text-lime-dark mb-1">
+        <div className="rounded-xl bg-gradient-to-r from-brand/8 to-surface border border-border p-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-brand-strong mb-1">
             {t("kicker")}
           </p>
           <h2 className="text-2xl font-bold text-foreground">
@@ -149,7 +149,7 @@ export default function DashboardPage() {
           <div className="rounded-xl bg-surface border border-border p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-bold text-foreground">{t("intentDistribution")}</h2>
-              <Link href="/dashboard/leads" className="text-xs font-medium text-lime hover:text-lime-dark flex items-center gap-1">
+              <Link href="/dashboard/leads" className="text-xs font-medium text-brand hover:text-brand-strong flex items-center gap-1">
                 {tc("viewAll")} <ArrowUpRight className="h-3 w-3" />
               </Link>
             </div>
@@ -182,8 +182,8 @@ export default function DashboardPage() {
                   href={action.href}
                   className="rounded-lg bg-surface-elevated p-3.5 hover:bg-surface-elevated/60 transition-colors border border-border"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-lime/10 mb-2">
-                    <action.icon className="h-4 w-4 text-lime-dark" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/10 mb-2">
+                    <action.icon className="h-4 w-4 text-brand-strong" />
                   </div>
                   <p className="text-xs font-semibold text-foreground">{action.label}</p>
                   <p className="text-[10px] text-text-muted mt-0.5">{action.desc}</p>
@@ -197,10 +197,10 @@ export default function DashboardPage() {
           <div className="rounded-xl bg-surface border border-border">
             <div className="px-5 py-4 border-b border-border flex items-center justify-between">
               <h2 className="text-base font-bold text-foreground flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-lime-dark" />
+                <CheckCircle2 className="h-4 w-4 text-brand-strong" />
                 {t("dayActions")}
               </h2>
-              <Link href="/dashboard/sequences" className="text-xs font-medium text-lime hover:text-lime-dark">
+              <Link href="/dashboard/sequences" className="text-xs font-medium text-brand hover:text-brand-strong">
                 {t("sequencesLink")}
               </Link>
             </div>
@@ -231,7 +231,7 @@ export default function DashboardPage() {
                         ) : null}
                         <button
                           onClick={() => advanceTask.mutate({ enrollmentId: task.id })}
-                          className="inline-flex items-center rounded-lg bg-lime/10 px-2.5 py-1.5 text-xs font-semibold text-lime-dark hover:bg-lime/20 transition-colors"
+                          className="inline-flex items-center rounded-lg bg-brand/10 px-2.5 py-1.5 text-xs font-semibold text-brand-strong hover:bg-brand/20 transition-colors"
                         >
                           {t("markDone")}
                         </button>
@@ -246,10 +246,10 @@ export default function DashboardPage() {
           <div className="rounded-xl bg-surface border border-border">
             <div className="px-5 py-4 border-b border-border flex items-center justify-between">
               <h2 className="text-base font-bold text-foreground flex items-center gap-2">
-                <Bell className="h-4 w-4 text-lime-dark" />
+                <Bell className="h-4 w-4 text-brand-strong" />
                 {t("newResults")}
               </h2>
-              <Link href="/dashboard/saved-searches" className="text-xs font-medium text-lime hover:text-lime-dark">
+              <Link href="/dashboard/saved-searches" className="text-xs font-medium text-brand hover:text-brand-strong">
                 {t("savedSearchesLink")}
               </Link>
             </div>
@@ -269,7 +269,7 @@ export default function DashboardPage() {
                       <p className="text-sm font-semibold text-foreground">{s.name}</p>
                       <p className="text-xs text-text-muted">{t("seeNewAccounts")}</p>
                     </div>
-                    <span className="inline-flex items-center rounded-full bg-lime/10 px-2.5 py-1 text-xs font-bold font-data text-lime-dark">
+                    <span className="inline-flex items-center rounded-full bg-brand/10 px-2.5 py-1 text-xs font-bold font-data text-brand-strong">
                       +{s.newSinceNotified}
                     </span>
                   </Link>
@@ -283,7 +283,7 @@ export default function DashboardPage() {
           <div className="rounded-xl bg-surface border border-border">
             <div className="px-5 py-4 border-b border-border flex items-center justify-between">
               <h2 className="text-base font-bold text-foreground">{t("recentContacts")}</h2>
-              <Link href="/dashboard/leads" className="text-xs font-medium text-lime hover:text-lime-dark">
+              <Link href="/dashboard/leads" className="text-xs font-medium text-brand hover:text-brand-strong">
                 {tc("viewAll")} →
               </Link>
             </div>
@@ -308,7 +308,7 @@ export default function DashboardPage() {
                     className="px-5 py-3.5 flex items-center justify-between hover:bg-surface-elevated transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-lg bg-lime/10 flex items-center justify-center text-xs font-bold text-lime-dark">
+                      <div className="h-9 w-9 rounded-lg bg-brand/10 flex items-center justify-center text-xs font-bold text-brand-strong">
                         {(lead.firstName?.[0] ?? "?") + (lead.lastName?.[0] ?? "")}
                       </div>
                       <div>
@@ -340,7 +340,7 @@ export default function DashboardPage() {
           <div className="rounded-xl bg-surface border border-border">
             <div className="px-5 py-4 border-b border-border flex items-center justify-between">
               <h2 className="text-base font-bold text-foreground">{t("priorityAccounts")}</h2>
-              <Link href="/dashboard/prospector" className="text-xs font-medium text-lime hover:text-lime-dark">
+              <Link href="/dashboard/prospector" className="text-xs font-medium text-brand hover:text-brand-strong">
                 {t("prospectorLink")}
               </Link>
             </div>

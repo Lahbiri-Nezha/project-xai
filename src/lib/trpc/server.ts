@@ -2,6 +2,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { prisma } from "@/lib/prisma";
 import { requireSession, getOrganizationId } from "@/lib/auth-utils";
 import { getGeneralRatelimit, getExpensiveRatelimit } from "@/lib/rate-limit";
+import type { OrgRole } from "../../../generated/prisma/client";
 
 export async function createTRPCContext() {
   return { prisma, requireSession, getOrganizationId };
@@ -37,9 +38,20 @@ async function resolveOrgPlan(orgId: string): Promise<string> {
   }
 }
 
+async function resolveMembership(userId: string, orgId: string) {
+  return prisma.organizationMembership.findUnique({
+    where: { userId_organizationId: { userId, organizationId: orgId } },
+    select: { role: true },
+  });
+}
+
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
   const session = await ctx.requireSession();
   const orgId = await ctx.getOrganizationId();
+  const membership = await resolveMembership(session.user.id, orgId);
+  if (!membership) {
+    throw new TRPCError({ code: "FORBIDDEN", message: "Vous n'êtes pas membre de cet espace." });
+  }
   const plan = await resolveOrgPlan(orgId);
 
   try {
@@ -63,13 +75,31 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
       session,
       orgId,
       plan,
+      role: membership.role,
     },
   });
 });
 
+export function requireRole(...roles: OrgRole[]) {
+  return t.middleware(async ({ ctx, next }) => {
+    const role = (ctx as Context & { role?: OrgRole }).role;
+    if (!role || !roles.includes(role)) {
+      throw new TRPCError({ code: "FORBIDDEN", message: "Droits insuffisants pour cette action." });
+    }
+    return next();
+  });
+}
+
+export const adminProcedure = protectedProcedure.use(requireRole("OWNER", "ADMIN"));
+export const ownerProcedure = protectedProcedure.use(requireRole("OWNER"));
+
 export const expensiveProcedure = t.procedure.use(async ({ ctx, next }) => {
   const session = await ctx.requireSession();
   const orgId = await ctx.getOrganizationId();
+  const membership = await resolveMembership(session.user.id, orgId);
+  if (!membership) {
+    throw new TRPCError({ code: "FORBIDDEN", message: "Vous n'êtes pas membre de cet espace." });
+  }
   const plan = await resolveOrgPlan(orgId);
 
   try {
@@ -93,6 +123,7 @@ export const expensiveProcedure = t.procedure.use(async ({ ctx, next }) => {
       session,
       orgId,
       plan,
+      role: membership.role,
     },
   });
 });

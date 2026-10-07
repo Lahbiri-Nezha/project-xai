@@ -14,6 +14,7 @@ Plateforme de sales intelligence pour le marché Maroc / MENA — prospection B2
 - **Upstash Redis + Ratelimit** (rate-limit par plan)
 - **Tailwind CSS v4** + shadcn/ui + framer-motion
 - **AI SDK** (`ai` / `@ai-sdk/openai`) — moteurs avec **fallback déterministe local** (le build et l'app fonctionnent sans clé OpenAI)
+- **next-intl** — FR / EN / AR avec RTL, locale via cookie `NEXT_LOCALE` (`localePrefix: "never"`), parité de clés verrouillée par test
 
 ## Démarrage rapide
 
@@ -33,7 +34,8 @@ Scripts utiles :
 npm run dev        # serveur de dev
 npm run build      # build de production + typecheck
 npm run lint       # eslint
-npm run test       # tests vitest (unitaires : compliance, filtres multi-tenant)
+npm run test       # tests vitest (unitaires, sans DB)
+npm run test:e2e   # tests Playwright (nécessite la stack docker + seed)
 ```
 
 ## Architecture
@@ -57,6 +59,7 @@ Principes :
 
 - **Pipeline asynchrone uniquement** : jamais de scraping/LLM dans une requête utilisateur — tout passe par Inngest (`src/lib/inngest/functions/`).
 - **Multi-tenant par construction** : chaque procédure reçoit `ctx.orgId` et filtre avec `organizationId` ; le gate est testé dans `tests/lead-filter.test.ts`.
+- **Inscription auto-suffisante** : `/signup` crée le compte puis son espace (rôle `OWNER`) via le plugin `organization` de better-auth, mappé sur nos modèles (`member` → `OrganizationMembership`, rôles en majuscules). Un échec de création d'espace n'est jamais silencieux : la page affiche une erreur et propose de réessayer sans recréer le compte.
 - **Compliance intégrée, pas en annexe** : `sequence.enroll` et les exports (`lead.exportCsv`, `list.exportCsv`) excluent les contacts `OPT_OUT` / `DO_NOT_CALL` / `SUPPRESSED` ; les accès et exports sont tracés dans `AccessLog`.
 
 ## Variables d'environnement
@@ -65,7 +68,7 @@ Principes :
 |---|---|---|
 | `DATABASE_URL` | Oui | Postgres (Prisma) |
 | `BETTER_AUTH_SECRET` | Oui | Sessions better-auth |
-| `BETTER_AUTH_URL` | Prod | Base URL auth (callback/redirect) |
+| `BETTER_AUTH_URL` | Oui* | Base URL auth (callback/redirect) — *`NEXT_PUBLIC_APP_URL` suffit ; l'un des deux est exigé au démarrage |
 | `OPENAI_API_KEY` | Non | LLM ; sans clé, moteurs déterministes locaux |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Non | Rate-limit (désactivé si absent) |
 | `STRIPE_SECRET_KEY`, `STRIPE_*_PRICE_ID` | Non | Billing (webhook `/api/stripe/webhook`) |
@@ -80,6 +83,8 @@ Trois paliers Upstash, appliqués par plan (`FREE` / `STARTER` / `PRO` / `ENTERP
 - **Général** (lectures/écritures) : `protectedProcedure` — 100 / 300 / 900 / 3000 req·h.
 - **Coûteux** (LLM : scoring) : `expensiveProcedure` (`lead.rescore`) — 10 / 40 / 120 / 400 req·h.
 - **Copilot** : route `/api/copilot/stream` — 10 / 30 / 100 / 300 req·h.
+
+En complément, better-auth applique un **rate-limit interne sur les endpoints d'authentification** (`src/lib/auth.ts`) : 100 req·min en général, et surtout `/sign-in/email` 5/min, `/sign-up/email` 3/min, `/forget-password` 3/min, `/reset-password` 5/min, `/two-factor/verify-totp` 5/min — indépendant d'Upstash, actif même sans Redis.
 
 Config dans `src/lib/rate-limit.ts`, application dans `src/lib/trpc/server.ts` et `src/app/api/copilot/stream/route.ts`.
 
@@ -101,6 +106,9 @@ Couverture actuelle (unitaires, sans DB) :
 
 - `tests/compliance.test.ts` — normalisation email/téléphone, gate opt-out/do-not-call/suppression, isolement multi-tenant du gate.
 - `tests/lead-filter.test.ts` — `buildLeadWhere` impose toujours `organizationId` et traduit correctement les filtres.
+- `tests/scoring.test.ts` — moteur de score déterministe (signaux persistés, re-score stable).
+- `tests/palette.test.ts` — contraste WCAG AA des tokens « Majorelle » (parsés depuis `globals.css`, paires texte/fond + éléments non textuels).
+- `tests/i18n.test.ts` — parité des clés FR/EN/AR + garde-fou contre les fuites françaises dans l'arabe.
 
 ## API keys & exports
 

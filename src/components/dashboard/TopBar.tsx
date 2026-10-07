@@ -74,7 +74,7 @@ export default function TopBar({ title }: { title: string }) {
           <input
             type="text"
             placeholder={t("searchPlaceholder")}
-            className="w-64 rounded-lg border border-border bg-background pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50 focus:border-lime"
+            className="w-64 rounded-lg border border-border bg-background pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand"
           />
         </div>
         <LanguageSwitcher />
@@ -86,7 +86,7 @@ export default function TopBar({ title }: { title: string }) {
           >
             <Bell className="h-5 w-5 text-text-secondary" />
             {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-lime" />
+              <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-brand" />
             )}
           </Menu.Trigger>
           <Menu.Portal>
@@ -108,14 +108,14 @@ export default function TopBar({ title }: { title: string }) {
 
         <Menu.Root>
           <Menu.Trigger
-            className="cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-lime/60"
+            className="cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-brand/60"
             aria-label={t("myProfile")}
           >
             <Avatar.Root className="h-8 w-8 rounded-full">
               {mounted && me?.userImage ? (
                 <Avatar.Image src={me.userImage} alt={name} className="h-8 w-8 rounded-full object-cover" />
               ) : null}
-              <Avatar.Fallback className="h-8 w-8 rounded-full bg-gradient-to-br from-lime/40 to-lime/10 flex items-center justify-center text-ink text-xs font-bold">
+              <Avatar.Fallback className="h-8 w-8 rounded-full bg-gradient-to-br from-brand/40 to-brand/10 flex items-center justify-center text-white text-xs font-bold">
                 {initials(mounted ? name : "")}
               </Avatar.Fallback>
             </Avatar.Root>

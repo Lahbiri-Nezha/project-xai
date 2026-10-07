@@ -71,7 +71,7 @@ export default function ListsPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={t("namePlaceholder")}
-                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50"
               />
             </div>
             <div>
@@ -79,7 +79,7 @@ export default function ListsPage() {
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as "LEADS" | "ACCOUNTS")}
-                className="mt-1 rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
               >
                 <option value="LEADS">{t("typeLeads")}</option>
                 <option value="ACCOUNTS">{t("typeAccounts")}</option>
@@ -88,7 +88,7 @@ export default function ListsPage() {
             <button
               onClick={() => name.trim() && createList.mutate({ name: name.trim(), type })}
               disabled={!name.trim()}
-              className="inline-flex items-center gap-2 rounded-lg bg-lime hover:bg-lime-dark text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-brand hover:bg-brand-strong text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
             >
               <Plus className="h-4 w-4" />
               {t("create")}
@@ -107,8 +107,8 @@ export default function ListsPage() {
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="h-9 w-9 rounded-lg bg-lime/10 flex items-center justify-center shrink-0">
-                    <ListIcon className="h-4 w-4 text-lime-dark" />
+                  <div className="h-9 w-9 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+                    <ListIcon className="h-4 w-4 text-brand-strong" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-foreground truncate">{list.name}</p>
@@ -124,7 +124,7 @@ export default function ListsPage() {
                     disabled={exportingId === list.id}
                     aria-label={t("exportLabel")}
                     title={t("exportTitle")}
-                    className="p-1.5 rounded-md text-text-muted hover:text-lime-dark hover:bg-surface-elevated transition-colors disabled:opacity-40"
+                    className="p-1.5 rounded-md text-text-muted hover:text-brand-strong hover:bg-surface-elevated transition-colors disabled:opacity-40"
                   >
                     <Download className={`h-4 w-4 ${exportingId === list.id ? "animate-pulse" : ""}`} />
                   </button>

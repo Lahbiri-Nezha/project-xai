@@ -67,7 +67,7 @@ export default function StatsSection() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto max-w-2xl text-center mb-16"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-lime-dark mb-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-strong mb-4">
             {t("statsBadge")}
           </p>
           <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground leading-tight">
@@ -89,7 +89,7 @@ export default function StatsSection() {
               }}
               className="text-center group"
             >
-              <p className="text-5xl sm:text-6xl lg:text-7xl font-bold font-data text-lime-dark transition-colors group-hover:text-lime">
+              <p className="text-5xl sm:text-6xl lg:text-7xl font-bold font-data text-brand-strong transition-colors group-hover:text-brand">
                 <CountUp
                   target={stat.value}
                   suffix={stat.suffix}

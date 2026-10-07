@@ -62,7 +62,13 @@
       "signingIn": "Connexion...",
       "noAccount": "Pas encore de compte ?",
       "signUp": "S'inscrire",
-      "genericError": "Une erreur est survenue. Veuillez réessayer."
+      "genericError": "Une erreur est survenue. Veuillez réessayer.",
+      "emailRequired": "Veuillez saisir votre adresse e-mail.",
+      "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
+      "passwordRequired": "Veuillez saisir votre mot de passe.",
+      "invalidCredentials": "E-mail ou mot de passe incorrect.",
+      "emailNotVerified": "Veuillez verifier votre adresse e-mail avant de vous connecter.",
+      "tooManyRequests": "Trop de tentatives. Reessayez dans quelques instants."
     },
     "signup": {
       "title": "Créez votre compte",
@@ -79,7 +85,16 @@
       "creatingAccount": "Création du compte...",
       "hasAccount": "Déjà un compte ?",
       "signIn": "Se connecter",
-      "genericError": "Une erreur est survenue. Veuillez réessayer."
+      "genericError": "Une erreur est survenue. Veuillez réessayer.",
+      "nameRequired": "Veuillez saisir votre nom.",
+      "emailRequired": "Veuillez saisir votre adresse e-mail.",
+      "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères.",
+      "userExists": "Un compte existe déjà avec cette adresse e-mail.",
+      "tooManyRequests": "Trop de tentatives. Réessayez dans quelques instants.",
+      "companyRequired": "Veuillez saisir le nom de votre entreprise.",
+      "orgError": "Le compte est créé, mais la création de votre espace a échoué (nom déjà utilisé ?). Modifiez le nom puis réessayez.",
+      "retryOrg": "Réessayer la création de l'espace"
     }
   },
   "dashboard": {
@@ -621,6 +636,36 @@
     "demoSignalTechMatch": "Stack technique compatible",
     "demoSignalPricing": "Page tarifs visitée",
     "demoSignalSite": "Site web consulté",
-    "demoSignalBlog": "Blog lu uniquement"
+    "demoSignalBlog": "Blog lu uniquement",
+    "howBadge": "En trois étapes",
+    "howTitle1": "Comment",
+    "howTitle2": "ça marche",
+    "howSubtitle": "De la collecte des signaux au score expliqué, sans boîte noire.",
+    "howStep1Number": "Étape 1",
+    "howStep1Title": "Collecte des signaux",
+    "howStep1Desc": "Nous déterminons les entreprises cibles, puis collectons leurs signaux d'achat : recrutements, financements, changements d'organisation, adoption de nouvelles technologies.",
+    "howStep2Number": "Étape 2",
+    "howStep2Title": "Score déterministe",
+    "howStep2Desc": "Un moteur de règles pondère chaque signal. Le même profil produit toujours le même score : pas d'aléatoire, pas de boîte noire.",
+    "howStep3Number": "Étape 3",
+    "howStep3Title": "Priorisation et explication",
+    "howStep3Desc": "Les leads sont classés par score et chaque note est décomposée en facteurs lisibles par votre équipe commerciale.",
+    "pricingBadge": "Tarifs",
+    "pricingTitle1": "Des plans",
+    "pricingTitle2": "qui évoluent avec vous",
+    "pricingSubtitle": "Commencez gratuit, évoluez quand votre volume le justifie. Tarifs en dirhams.",
+    "pricingPopular": "Le plus choisi",
+    "pricingCta": "Commencer",
+    "navSignUp": "S'inscrire",
+    "footerGetStarted": "Commencer",
+    "footerGetStartedDesc": "Créez votre compte et scoringez vos premiers leads en quelques minutes."
+  },
+  "error": {
+    "title": "Une erreur est survenue",
+    "description": "Le contenu n'a pas pu être chargé. Vous pouvez réessayer sans perdre votre session.",
+    "retry": "Réessayer",
+    "digest": "Référence : {digest}",
+    "notFoundTitle": "Page introuvable",
+    "notFoundDescription": "Cette page n'existe pas ou a été déplacée."
   }
 }

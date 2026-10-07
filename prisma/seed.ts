@@ -193,9 +193,10 @@ async function main() {
   const newCompanies: { id: string; domain: string }[] = [];
   for (const c of COMPANIES) {
     const company = await prisma.company.upsert({
-      where: { domain: c.domain },
+      where: { organizationId_domain: { organizationId: org.id, domain: c.domain } },
       update: {},
       create: {
+        organizationId: org.id,
         name: c.name,
         domain: c.domain,
         industry: c.industry,
@@ -250,6 +251,20 @@ async function main() {
       select: { id: true },
     });
     if (existing) {
+      const existingSignals = await prisma.signal.count({
+        where: { leadId: existing.id },
+      });
+      if (existingSignals === 0) {
+        await prisma.signal.createMany({
+          data: signals.map((s) => ({
+            leadId: existing.id,
+            type: s.type as never,
+            value: s.type,
+            weight: s.weight,
+            source: "Seed démo",
+          })),
+        });
+      }
       skipped++;
       continue;
     }
@@ -302,6 +317,14 @@ async function main() {
           explanation: result.explanation,
         } as unknown as Prisma.InputJsonValue,
         createdAt: new Date(Date.now() - Math.floor(Math.random() * 60) * 86400000),
+        signals: {
+          create: signals.map((s) => ({
+            type: s.type as never,
+            value: s.type,
+            weight: s.weight,
+            source: "Seed démo",
+          })),
+        },
       },
     });
     createdLeads.push({ id: lead.id, intent: result.intent, email });

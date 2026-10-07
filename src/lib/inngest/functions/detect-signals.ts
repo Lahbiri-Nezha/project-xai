@@ -108,6 +108,15 @@ async function detectCompanySignals(company: {
       select: { id: true },
     });
     for (const lead of leads) {
+      await prisma.signal.create({
+        data: {
+          leadId: lead.id,
+          type: sig.type,
+          value: sig.type,
+          weight: sig.intensity,
+          source: `rss:${company.domain}`,
+        },
+      });
       await scoreLead(lead.id).catch(() => {});
     }
   }

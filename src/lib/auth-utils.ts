@@ -13,7 +13,18 @@ export async function requireSession() {
 export async function getOrganizationId() {
   const session = await requireSession();
   const activeId = session.session.activeOrganizationId;
-  if (activeId) return activeId;
+  if (activeId) {
+    const membership = await prisma.organizationMembership.findUnique({
+      where: {
+        userId_organizationId: {
+          userId: session.user.id,
+          organizationId: activeId,
+        },
+      },
+      select: { organizationId: true },
+    });
+    if (membership) return membership.organizationId;
+  }
 
   const membership = await prisma.organizationMembership.findFirst({
     where: { userId: session.user.id },

@@ -207,6 +207,7 @@ export type OrganizationWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
   members?: Prisma.OrganizationMembershipListRelationFilter
+  companies?: Prisma.CompanyListRelationFilter
   leads?: Prisma.LeadListRelationFilter
   copilotChats?: Prisma.CopilotChatListRelationFilter
   apiKeys?: Prisma.ApiKeyListRelationFilter
@@ -227,6 +228,7 @@ export type OrganizationOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   members?: Prisma.OrganizationMembershipOrderByRelationAggregateInput
+  companies?: Prisma.CompanyOrderByRelationAggregateInput
   leads?: Prisma.LeadOrderByRelationAggregateInput
   copilotChats?: Prisma.CopilotChatOrderByRelationAggregateInput
   apiKeys?: Prisma.ApiKeyOrderByRelationAggregateInput
@@ -250,6 +252,7 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
   members?: Prisma.OrganizationMembershipListRelationFilter
+  companies?: Prisma.CompanyListRelationFilter
   leads?: Prisma.LeadListRelationFilter
   copilotChats?: Prisma.CopilotChatListRelationFilter
   apiKeys?: Prisma.ApiKeyListRelationFilter
@@ -298,6 +301,7 @@ export type OrganizationCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
@@ -318,6 +322,7 @@ export type OrganizationUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
@@ -338,6 +343,7 @@ export type OrganizationUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
@@ -358,6 +364,7 @@ export type OrganizationUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -471,6 +478,20 @@ export type OrganizationUpdateOneRequiredWithoutLeadsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutLeadsInput, Prisma.OrganizationUpdateWithoutLeadsInput>, Prisma.OrganizationUncheckedUpdateWithoutLeadsInput>
 }
 
+export type OrganizationCreateNestedOneWithoutCompaniesInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutCompaniesInput, Prisma.OrganizationUncheckedCreateWithoutCompaniesInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutCompaniesInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+}
+
+export type OrganizationUpdateOneRequiredWithoutCompaniesNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutCompaniesInput, Prisma.OrganizationUncheckedCreateWithoutCompaniesInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutCompaniesInput
+  upsert?: Prisma.OrganizationUpsertWithoutCompaniesInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutCompaniesInput, Prisma.OrganizationUpdateWithoutCompaniesInput>, Prisma.OrganizationUncheckedUpdateWithoutCompaniesInput>
+}
+
 export type OrganizationCreateNestedOneWithoutCopilotChatsInput = {
   create?: Prisma.XOR<Prisma.OrganizationCreateWithoutCopilotChatsInput, Prisma.OrganizationUncheckedCreateWithoutCopilotChatsInput>
   connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutCopilotChatsInput
@@ -578,6 +599,7 @@ export type OrganizationCreateWithoutMembersInput = {
   stripeSubscriptionId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
@@ -597,6 +619,7 @@ export type OrganizationUncheckedCreateWithoutMembersInput = {
   stripeSubscriptionId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
@@ -632,6 +655,7 @@ export type OrganizationUpdateWithoutMembersInput = {
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
@@ -651,6 +675,7 @@ export type OrganizationUncheckedUpdateWithoutMembersInput = {
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -671,6 +696,7 @@ export type OrganizationCreateWithoutLeadsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutOrganizationInput
@@ -690,6 +716,7 @@ export type OrganizationUncheckedCreateWithoutLeadsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutOrganizationInput
@@ -725,6 +752,7 @@ export type OrganizationUpdateWithoutLeadsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutOrganizationNestedInput
@@ -744,6 +772,103 @@ export type OrganizationUncheckedUpdateWithoutLeadsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
+  copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutOrganizationNestedInput
+  lists?: Prisma.ListUncheckedUpdateManyWithoutOrganizationNestedInput
+  sequences?: Prisma.SequenceUncheckedUpdateManyWithoutOrganizationNestedInput
+  complianceFlags?: Prisma.ComplianceFlagUncheckedUpdateManyWithoutOrganizationNestedInput
+  accessLogs?: Prisma.AccessLogUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationCreateWithoutCompaniesInput = {
+  id?: string
+  name: string
+  slug: string
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
+  copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutOrganizationInput
+  lists?: Prisma.ListCreateNestedManyWithoutOrganizationInput
+  sequences?: Prisma.SequenceCreateNestedManyWithoutOrganizationInput
+  complianceFlags?: Prisma.ComplianceFlagCreateNestedManyWithoutOrganizationInput
+  accessLogs?: Prisma.AccessLogCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationUncheckedCreateWithoutCompaniesInput = {
+  id?: string
+  name: string
+  slug: string
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
+  copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutOrganizationInput
+  lists?: Prisma.ListUncheckedCreateNestedManyWithoutOrganizationInput
+  sequences?: Prisma.SequenceUncheckedCreateNestedManyWithoutOrganizationInput
+  complianceFlags?: Prisma.ComplianceFlagUncheckedCreateNestedManyWithoutOrganizationInput
+  accessLogs?: Prisma.AccessLogUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationCreateOrConnectWithoutCompaniesInput = {
+  where: Prisma.OrganizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutCompaniesInput, Prisma.OrganizationUncheckedCreateWithoutCompaniesInput>
+}
+
+export type OrganizationUpsertWithoutCompaniesInput = {
+  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutCompaniesInput, Prisma.OrganizationUncheckedUpdateWithoutCompaniesInput>
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutCompaniesInput, Prisma.OrganizationUncheckedCreateWithoutCompaniesInput>
+  where?: Prisma.OrganizationWhereInput
+}
+
+export type OrganizationUpdateToOneWithWhereWithoutCompaniesInput = {
+  where?: Prisma.OrganizationWhereInput
+  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutCompaniesInput, Prisma.OrganizationUncheckedUpdateWithoutCompaniesInput>
+}
+
+export type OrganizationUpdateWithoutCompaniesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
+  copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutOrganizationNestedInput
+  lists?: Prisma.ListUpdateManyWithoutOrganizationNestedInput
+  sequences?: Prisma.SequenceUpdateManyWithoutOrganizationNestedInput
+  complianceFlags?: Prisma.ComplianceFlagUpdateManyWithoutOrganizationNestedInput
+  accessLogs?: Prisma.AccessLogUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationUncheckedUpdateWithoutCompaniesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -763,6 +888,7 @@ export type OrganizationCreateWithoutCopilotChatsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutOrganizationInput
@@ -782,6 +908,7 @@ export type OrganizationUncheckedCreateWithoutCopilotChatsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutOrganizationInput
@@ -817,6 +944,7 @@ export type OrganizationUpdateWithoutCopilotChatsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutOrganizationNestedInput
@@ -836,6 +964,7 @@ export type OrganizationUncheckedUpdateWithoutCopilotChatsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -855,6 +984,7 @@ export type OrganizationCreateWithoutApiKeysInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutOrganizationInput
@@ -874,6 +1004,7 @@ export type OrganizationUncheckedCreateWithoutApiKeysInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutOrganizationInput
@@ -909,6 +1040,7 @@ export type OrganizationUpdateWithoutApiKeysInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutOrganizationNestedInput
@@ -928,6 +1060,7 @@ export type OrganizationUncheckedUpdateWithoutApiKeysInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -947,6 +1080,7 @@ export type OrganizationCreateWithoutComplianceFlagsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
@@ -966,6 +1100,7 @@ export type OrganizationUncheckedCreateWithoutComplianceFlagsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
@@ -1001,6 +1136,7 @@ export type OrganizationUpdateWithoutComplianceFlagsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
@@ -1020,6 +1156,7 @@ export type OrganizationUncheckedUpdateWithoutComplianceFlagsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -1039,6 +1176,7 @@ export type OrganizationCreateWithoutSavedSearchesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
@@ -1058,6 +1196,7 @@ export type OrganizationUncheckedCreateWithoutSavedSearchesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
@@ -1093,6 +1232,7 @@ export type OrganizationUpdateWithoutSavedSearchesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
@@ -1112,6 +1252,7 @@ export type OrganizationUncheckedUpdateWithoutSavedSearchesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -1131,6 +1272,7 @@ export type OrganizationCreateWithoutListsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
@@ -1150,6 +1292,7 @@ export type OrganizationUncheckedCreateWithoutListsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
@@ -1185,6 +1328,7 @@ export type OrganizationUpdateWithoutListsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
@@ -1204,6 +1348,7 @@ export type OrganizationUncheckedUpdateWithoutListsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -1223,6 +1368,7 @@ export type OrganizationCreateWithoutSequencesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
@@ -1242,6 +1388,7 @@ export type OrganizationUncheckedCreateWithoutSequencesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
@@ -1277,6 +1424,7 @@ export type OrganizationUpdateWithoutSequencesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
@@ -1296,6 +1444,7 @@ export type OrganizationUncheckedUpdateWithoutSequencesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -1315,6 +1464,7 @@ export type OrganizationCreateWithoutAccessLogsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
@@ -1334,6 +1484,7 @@ export type OrganizationUncheckedCreateWithoutAccessLogsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.OrganizationMembershipUncheckedCreateNestedManyWithoutOrganizationInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutOrganizationInput
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
   copilotChats?: Prisma.CopilotChatUncheckedCreateNestedManyWithoutOrganizationInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
@@ -1369,6 +1520,7 @@ export type OrganizationUpdateWithoutAccessLogsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
@@ -1388,6 +1540,7 @@ export type OrganizationUncheckedUpdateWithoutAccessLogsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.OrganizationMembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutOrganizationNestedInput
   leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
   copilotChats?: Prisma.CopilotChatUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -1404,6 +1557,7 @@ export type OrganizationUncheckedUpdateWithoutAccessLogsInput = {
 
 export type OrganizationCountOutputType = {
   members: number
+  companies: number
   leads: number
   copilotChats: number
   apiKeys: number
@@ -1416,6 +1570,7 @@ export type OrganizationCountOutputType = {
 
 export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | OrganizationCountOutputTypeCountMembersArgs
+  companies?: boolean | OrganizationCountOutputTypeCountCompaniesArgs
   leads?: boolean | OrganizationCountOutputTypeCountLeadsArgs
   copilotChats?: boolean | OrganizationCountOutputTypeCountCopilotChatsArgs
   apiKeys?: boolean | OrganizationCountOutputTypeCountApiKeysArgs
@@ -1441,6 +1596,13 @@ export type OrganizationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types
  */
 export type OrganizationCountOutputTypeCountMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.OrganizationMembershipWhereInput
+}
+
+/**
+ * OrganizationCountOutputType without action
+ */
+export type OrganizationCountOutputTypeCountCompaniesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CompanyWhereInput
 }
 
 /**
@@ -1510,6 +1672,7 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   createdAt?: boolean
   updatedAt?: boolean
   members?: boolean | Prisma.Organization$membersArgs<ExtArgs>
+  companies?: boolean | Prisma.Organization$companiesArgs<ExtArgs>
   leads?: boolean | Prisma.Organization$leadsArgs<ExtArgs>
   copilotChats?: boolean | Prisma.Organization$copilotChatsArgs<ExtArgs>
   apiKeys?: boolean | Prisma.Organization$apiKeysArgs<ExtArgs>
@@ -1557,6 +1720,7 @@ export type OrganizationSelectScalar = {
 export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "plan" | "stripeCustomerId" | "stripeSubscriptionId" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
 export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | Prisma.Organization$membersArgs<ExtArgs>
+  companies?: boolean | Prisma.Organization$companiesArgs<ExtArgs>
   leads?: boolean | Prisma.Organization$leadsArgs<ExtArgs>
   copilotChats?: boolean | Prisma.Organization$copilotChatsArgs<ExtArgs>
   apiKeys?: boolean | Prisma.Organization$apiKeysArgs<ExtArgs>
@@ -1574,6 +1738,7 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
   name: "Organization"
   objects: {
     members: Prisma.$OrganizationMembershipPayload<ExtArgs>[]
+    companies: Prisma.$CompanyPayload<ExtArgs>[]
     leads: Prisma.$LeadPayload<ExtArgs>[]
     copilotChats: Prisma.$CopilotChatPayload<ExtArgs>[]
     apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
@@ -1987,6 +2152,7 @@ readonly fields: OrganizationFieldRefs;
 export interface Prisma__OrganizationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   members<T extends Prisma.Organization$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrganizationMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  companies<T extends Prisma.Organization$companiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$companiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   leads<T extends Prisma.Organization$leadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   copilotChats<T extends Prisma.Organization$copilotChatsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$copilotChatsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CopilotChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   apiKeys<T extends Prisma.Organization$apiKeysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2446,6 +2612,30 @@ export type Organization$membersArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.OrganizationMembershipScalarFieldEnum | Prisma.OrganizationMembershipScalarFieldEnum[]
+}
+
+/**
+ * Organization.companies
+ */
+export type Organization$companiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Company
+   */
+  select?: Prisma.CompanySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Company
+   */
+  omit?: Prisma.CompanyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CompanyInclude<ExtArgs> | null
+  where?: Prisma.CompanyWhereInput
+  orderBy?: Prisma.CompanyOrderByWithRelationInput | Prisma.CompanyOrderByWithRelationInput[]
+  cursor?: Prisma.CompanyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CompanyScalarFieldEnum | Prisma.CompanyScalarFieldEnum[]
 }
 
 /**

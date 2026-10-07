@@ -133,8 +133,8 @@ export default function CompanyDetailPage({
           </Link>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-lime/10 flex items-center justify-center shrink-0">
-                <Building2 className="h-5 w-5 text-lime-dark" />
+              <div className="h-10 w-10 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+                <Building2 className="h-5 w-5 text-brand-strong" />
               </div>
               <div className="min-w-0">
                 <h2 className="text-xl font-bold text-foreground truncate">{company.name}</h2>
@@ -158,7 +158,7 @@ export default function CompanyDetailPage({
                 href={`https://${company.domain}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] font-medium text-lime hover:text-lime-dark inline-flex items-center gap-1"
+                className="text-[10px] font-medium text-brand hover:text-brand-strong inline-flex items-center gap-1"
               >
                 {t("visitSite")} <ExternalLink className="h-3 w-3" />
               </a>
@@ -166,7 +166,7 @@ export default function CompanyDetailPage({
             <button
               onClick={() => enrich.mutate({ companyId })}
               disabled={enrich.isPending}
-              className="inline-flex items-center gap-1 rounded-lg bg-lime px-2.5 py-1 text-[11px] font-bold text-surface hover:bg-lime-dark disabled:opacity-60 transition-colors"
+              className="inline-flex items-center gap-1 rounded-lg bg-brand px-2.5 py-1 text-[11px] font-bold text-surface hover:bg-brand-strong disabled:opacity-60 transition-colors"
             >
               <RefreshCw className="h-3 w-3" />
               {enrich.isPending ? t("enriching") : t("enrich")}
@@ -255,7 +255,7 @@ export default function CompanyDetailPage({
                       <div className="min-w-0">
                         <p className="text-xs font-semibold text-foreground">{sourceLabels[ds.kind] ?? ds.kind}</p>
                         {ds.url && (
-                          <a href={ds.url} target="_blank" rel="noopener noreferrer" className="text-[10px] text-lime hover:text-lime-dark truncate block">
+                          <a href={ds.url} target="_blank" rel="noopener noreferrer" className="text-[10px] text-brand hover:text-brand-strong truncate block">
                             {ds.url}
                           </a>
                         )}
@@ -281,7 +281,7 @@ export default function CompanyDetailPage({
                     <Link
                       key={l.id}
                       href={`/dashboard/leads/${l.id}`}
-                      className="block rounded-lg bg-surface-elevated p-3 hover:bg-lime/5 transition-colors"
+                      className="block rounded-lg bg-surface-elevated p-3 hover:bg-brand/5 transition-colors"
                     >
                       <div className="flex items-center justify-between">
                         <p className="text-xs font-semibold text-foreground">
@@ -298,7 +298,7 @@ export default function CompanyDetailPage({
                             e.preventDefault();
                             copyEmail(l.email);
                           }}
-                          className="mt-1 text-[10px] font-medium text-lime hover:text-lime-dark"
+                          className="mt-1 text-[10px] font-medium text-brand hover:text-brand-strong"
                         >
                           {copy ? t("copied") : t("copyEmail")}
                         </button>

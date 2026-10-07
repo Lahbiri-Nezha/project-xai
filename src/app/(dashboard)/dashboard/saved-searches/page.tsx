@@ -95,7 +95,7 @@ export default function SavedSearchesPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={t("namePlaceholder")}
-                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50"
               />
             </div>
             <div>
@@ -104,7 +104,7 @@ export default function SavedSearchesPage() {
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
                 placeholder={t("industryPlaceholder")}
-                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50"
               />
             </div>
             <div>
@@ -113,7 +113,7 @@ export default function SavedSearchesPage() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder={t("cityPlaceholder")}
-                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50"
               />
             </div>
             <div>
@@ -121,7 +121,7 @@ export default function SavedSearchesPage() {
               <select
                 value={notifyFrequency}
                 onChange={(e) => setNotifyFrequency(e.target.value as "daily" | "weekly" | "never")}
-                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
               >
                 <option value="daily">{t("freqDaily")}</option>
                 <option value="weekly">{t("freqWeekly")}</option>
@@ -132,7 +132,7 @@ export default function SavedSearchesPage() {
           <button
             onClick={save}
             disabled={!name.trim()}
-            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-lime hover:bg-lime-dark text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
+            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand hover:bg-brand-strong text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
           >
             <Plus className="h-4 w-4" />
             {t("save")}
@@ -150,14 +150,14 @@ export default function SavedSearchesPage() {
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="h-9 w-9 rounded-lg bg-lime/10 flex items-center justify-center shrink-0">
-                    <Search className="h-4 w-4 text-lime-dark" />
+                  <div className="h-9 w-9 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+                    <Search className="h-4 w-4 text-brand-strong" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <p className="text-sm font-semibold text-foreground truncate">{s.name}</p>
                       {s.newSinceNotified > 0 && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-lime/15 text-lime-dark px-2 py-0.5 text-[10px] font-bold">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-brand/15 text-brand-strong px-2 py-0.5 text-[10px] font-bold">
                           <Bell className="h-3 w-3" />
                           {t("newBadge", { count: s.newSinceNotified })}
                         </span>
@@ -182,7 +182,7 @@ export default function SavedSearchesPage() {
                       <input
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
-                        className="w-40 rounded-lg border border-border bg-surface px-2 py-1 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-lime/50"
+                        className="w-40 rounded-lg border border-border bg-surface px-2 py-1 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
                       />
                       <select
                         value={editFrequency}
@@ -203,7 +203,7 @@ export default function SavedSearchesPage() {
                         }
                         disabled={updateSearch.isPending}
                         aria-label={t("editSave")}
-                        className="p-1.5 rounded-md text-lime-dark hover:bg-surface-elevated transition-colors"
+                        className="p-1.5 rounded-md text-brand-strong hover:bg-surface-elevated transition-colors"
                       >
                         <Check className="h-4 w-4" />
                       </button>
@@ -228,7 +228,7 @@ export default function SavedSearchesPage() {
                           );
                         }}
                         aria-label={t("editModify")}
-                        className="p-1.5 rounded-md text-text-muted hover:text-lime-dark hover:bg-surface-elevated transition-colors"
+                        className="p-1.5 rounded-md text-text-muted hover:text-brand-strong hover:bg-surface-elevated transition-colors"
                       >
                         <Pencil className="h-4 w-4" />
                       </button>
@@ -238,7 +238,7 @@ export default function SavedSearchesPage() {
                           if (s.newSinceNotified > 0) acknowledge.mutate({ id: s.id });
                         }}
                         aria-label={t("editPreview")}
-                        className="p-1.5 rounded-md text-text-muted hover:text-lime-dark hover:bg-surface-elevated transition-colors"
+                        className="p-1.5 rounded-md text-text-muted hover:text-brand-strong hover:bg-surface-elevated transition-colors"
                       >
                         <Eye className="h-4 w-4" />
                       </button>

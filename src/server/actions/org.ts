@@ -22,7 +22,8 @@ export async function createOrg(orgName: string) {
       headers: await headers(),
     });
     return { success: true };
-  } catch {
+  } catch (err) {
+    console.error("[createOrg]", err);
     return { error: "Failed to create organization" };
   }
 }

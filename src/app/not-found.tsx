@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-center">
-        <p className="text-7xl font-bold text-lime">404</p>
+        <p className="text-7xl font-bold text-brand">404</p>
         <h1 className="mt-4 text-2xl font-bold text-foreground">
           {t("title")}
         </h1>
@@ -15,7 +15,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="mt-6 inline-block bg-lime text-ink font-semibold px-6 py-2.5 rounded-lg hover:bg-lime-dark transition-colors"
+          className="mt-6 inline-block bg-brand text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-brand-strong transition-colors"
         >
           {t("goHome")}
         </Link>

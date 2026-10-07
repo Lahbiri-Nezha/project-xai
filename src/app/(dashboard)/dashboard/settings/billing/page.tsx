@@ -98,7 +98,7 @@ export default function BillingPage() {
                   : "…"}
             </p>
           </div>
-          <span className="inline-flex items-center rounded-full bg-lime/10 px-3 py-1 text-xs font-semibold text-lime-dark">
+          <span className="inline-flex items-center rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand-strong">
             {t("currentPlan")}
           </span>
         </div>
@@ -112,7 +112,7 @@ export default function BillingPage() {
             </div>
             <div className="h-2 rounded-full bg-surface-elevated overflow-hidden">
               <div
-                className={`h-full rounded-full ${usagePct >= 90 ? "bg-lead-excellent" : "bg-lime"}`}
+                className={`h-full rounded-full ${usagePct >= 90 ? "bg-lead-excellent" : "bg-brand"}`}
                 style={{ width: `${usagePct}%` }}
               />
             </div>
@@ -160,10 +160,10 @@ export default function BillingPage() {
           return (
             <div
               key={plan.key}
-              className={`rounded-xl bg-surface border p-6 ${isCurrent ? "border-lime/50 ring-1 ring-lime/30" : "border-border"}`}
+              className={`rounded-xl bg-surface border p-6 ${isCurrent ? "border-brand/50 ring-1 ring-brand/30" : "border-border"}`}
             >
               <p className="text-lg font-bold text-foreground">{plan.name}</p>
-              <p className="mt-1 text-2xl font-bold font-data text-lime-dark">
+              <p className="mt-1 text-2xl font-bold font-data text-brand-strong">
                 {plan.price}
                 {plan.key !== "ENTERPRISE" && (
                   <span className="text-sm font-medium text-text-muted"> {t("madMonth")}</span>
@@ -173,20 +173,20 @@ export default function BillingPage() {
               <ul className="mt-4 space-y-2">
                 {plan.features.map((f) => (
                   <li key={f} className="text-xs text-text-secondary flex items-center gap-2">
-                    <div className="h-1 w-1 rounded-full bg-lime" />
+                    <div className="h-1 w-1 rounded-full bg-brand" />
                     {f}
                   </li>
                 ))}
               </ul>
               {isCurrent ? (
-                <span className="mt-4 w-full block text-center bg-lime/10 text-lime-dark font-semibold py-2 rounded-lg text-sm">
+                <span className="mt-4 w-full block text-center bg-brand/10 text-brand-strong font-semibold py-2 rounded-lg text-sm">
                   {t("planCurrent")}
                 </span>
               ) : isUpgradeable ? (
                 <button
                   onClick={() => onUpgrade(plan.key as "STARTER" | "PRO")}
                   disabled={checkout.isPending}
-                  className="mt-4 w-full bg-lime hover:bg-lime-dark text-white font-semibold py-2 rounded-lg transition-all text-sm hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="mt-4 w-full bg-brand hover:bg-brand-strong text-white font-semibold py-2 rounded-lg transition-all text-sm hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {checkout.isPending ? t("redirecting") : t("upgrade", { name: plan.name })}
                 </button>

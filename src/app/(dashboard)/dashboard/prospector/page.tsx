@@ -85,7 +85,7 @@ function FilterBlock({
 }
 
 const inputCls =
-  "w-full rounded-lg border border-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50 focus:border-lime";
+  "w-full rounded-lg border border-border bg-surface px-3 py-1.5 text-xs text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand";
 
 export default function ProspectorPage() {
   const t = useTranslations("prospector");
@@ -278,12 +278,12 @@ export default function ProspectorPage() {
                   ? t("searchAccountsPlaceholder")
                   : t("searchContactsPlaceholder")
               }
-              className="w-full rounded-xl border border-border bg-surface pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50 focus:border-lime"
+              className="w-full rounded-xl border border-border bg-surface pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand"
             />
           </div>
           <button
             onClick={() => setSubmittedQuery(query)}
-            className="flex items-center gap-2 bg-lime text-ink px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-lime-dark transition-colors"
+            className="flex items-center gap-2 bg-brand text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-strong transition-colors"
           >
             <Sparkles className="h-4 w-4" />
             {t("searchBtn")}
@@ -317,7 +317,7 @@ export default function ProspectorPage() {
               }}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 tab === t.key
-                  ? "bg-lime text-ink"
+                  ? "bg-brand text-white"
                   : "bg-surface-elevated text-text-secondary hover:text-foreground"
               }`}
             >
@@ -325,7 +325,7 @@ export default function ProspectorPage() {
               {t.label}
               <span
                 className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                  tab === t.key ? "bg-ink/15 text-ink" : "bg-surface text-text-muted"
+                  tab === t.key ? "bg-brand-soft text-brand-strong" : "bg-surface text-text-muted"
                 }`}
               >
                 {t.key === "accounts" ? accountsQuery.data?.total ?? 0 : contactsQuery.data?.total ?? 0}
@@ -351,7 +351,7 @@ export default function ProspectorPage() {
               <h3 className="text-xs font-bold text-foreground">{t("filters")}</h3>
               <button
                 onClick={resetFilters}
-                className="flex items-center gap-1 text-[10px] font-medium text-text-muted hover:text-lime transition-colors"
+                className="flex items-center gap-1 text-[10px] font-medium text-text-muted hover:text-brand transition-colors"
               >
                 <RotateCcw className="h-3 w-3" />
                 {t("reset")}
@@ -447,7 +447,7 @@ export default function ProspectorPage() {
                         type="checkbox"
                         checked={signals.includes(s)}
                         onChange={() => toggleSignal(s)}
-                        className="accent-lime"
+                        className="accent-brand"
                       />
                       {signalLabels[s]}
                     </label>
@@ -468,7 +468,7 @@ export default function ProspectorPage() {
                         onClick={() => setLeadIntent(i)}
                         className={`px-2.5 py-1 rounded-full text-[10px] font-medium ${
                           leadIntent === i
-                            ? "bg-lime text-ink"
+                            ? "bg-brand text-white"
                             : "bg-surface-elevated text-text-secondary hover:text-foreground"
                         }`}
                       >
@@ -521,7 +521,7 @@ export default function ProspectorPage() {
                     type="checkbox"
                     checked={leadHasEmail}
                     onChange={(e) => setLeadHasEmail(e.target.checked)}
-                    className="accent-lime"
+                    className="accent-brand"
                   />
                   {t("emailOnly")}
                 </label>
@@ -532,13 +532,13 @@ export default function ProspectorPage() {
           {/* Results */}
           <div className="flex-1 space-y-3">
             {selected.length > 0 && (
-              <div className="rounded-xl bg-lime/5 border border-lime/20 p-3 flex flex-wrap items-center gap-3">
+              <div className="rounded-xl bg-brand/5 border border-brand/20 p-3 flex flex-wrap items-center gap-3">
                 <span className="text-xs font-bold text-foreground">
                   {t("selected", { count: selected.length })}
                 </span>
                 <button
                   onClick={() => setBulkMenu(bulkMenu === "list" ? "none" : "list")}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-surface border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:text-lime-dark transition-colors"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-surface border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:text-brand-strong transition-colors"
                 >
                   <ListPlus className="h-3.5 w-3.5" />
                   {t("addToList")}
@@ -546,7 +546,7 @@ export default function ProspectorPage() {
                 {tab === "contacts" && (
                   <button
                     onClick={() => setBulkMenu(bulkMenu === "sequence" ? "none" : "sequence")}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-surface border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:text-lime-dark transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-surface border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:text-brand-strong transition-colors"
                   >
                     <Timer className="h-3.5 w-3.5" />
                     {t("enrollInSequence")}
@@ -637,10 +637,10 @@ export default function ProspectorPage() {
                           type="checkbox"
                           checked={selected.includes(c.id)}
                           onChange={() => toggleSelect(c.id)}
-                          className="mt-2 h-4 w-4 shrink-0 rounded border-border bg-surface text-lime focus:ring-lime/40 accent-lime"
+                          className="mt-2 h-4 w-4 shrink-0 rounded border-border bg-surface text-brand focus:ring-brand/40 accent-brand"
                         />
-                        <div className="h-10 w-10 rounded-lg bg-lime/10 flex items-center justify-center shrink-0">
-                          <Building2 className="h-5 w-5 text-lime-dark" />
+                        <div className="h-10 w-10 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+                          <Building2 className="h-5 w-5 text-brand-strong" />
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
@@ -677,7 +677,7 @@ export default function ProspectorPage() {
                               {c.buyingSignals.map((s) => (
                                 <span
                                   key={s.id}
-                                  className="inline-flex items-center rounded-md bg-lime/10 px-2 py-0.5 text-[10px] font-medium text-lime-dark"
+                                  className="inline-flex items-center rounded-md bg-brand/10 px-2 py-0.5 text-[10px] font-medium text-brand-strong"
                                 >
                                   {signalLabels[s.type as keyof typeof signalLabels] ?? s.type}
                                 </span>
@@ -696,13 +696,13 @@ export default function ProspectorPage() {
                           </span>
                           <Link
                             href={`/dashboard/companies/${c.id}`}
-                            className="text-[10px] font-medium text-lime hover:text-lime-dark"
+                            className="text-[10px] font-medium text-brand hover:text-brand-strong"
                           >
                             {t("viewCompany360")}
                           </Link>
                           <button
                             onClick={() => openCompanyContacts(c.name)}
-                            className="text-[10px] font-medium text-lime hover:text-lime-dark"
+                            className="text-[10px] font-medium text-brand hover:text-brand-strong"
                           >
                             {t("viewContacts")}
                           </button>
@@ -749,16 +749,16 @@ export default function ProspectorPage() {
                             type="checkbox"
                             checked={selected.includes(lead.id)}
                             onChange={() => toggleSelect(lead.id)}
-                            className="h-4 w-4 rounded border-border bg-surface text-lime focus:ring-lime/40 accent-lime"
+                            className="h-4 w-4 rounded border-border bg-surface text-brand focus:ring-brand/40 accent-brand"
                           />
                         </td>
                         <td className="px-5 py-3">
                           <Link href={`/dashboard/leads/${lead.id}`} className="group flex items-center gap-3">
-                            <div className="h-9 w-9 rounded-lg bg-lime/10 flex items-center justify-center text-xs font-bold text-lime-dark">
+                            <div className="h-9 w-9 rounded-lg bg-brand/10 flex items-center justify-center text-xs font-bold text-brand-strong">
                               {(lead.firstName?.[0] ?? "?") + (lead.lastName?.[0] ?? "")}
                             </div>
                             <div>
-                              <p className="text-sm font-semibold text-foreground group-hover:text-lime transition-colors">
+                              <p className="text-sm font-semibold text-foreground group-hover:text-brand transition-colors">
                                 {lead.firstName} {lead.lastName}
                               </p>
                               <p className="text-xs text-text-muted">{lead.email}</p>

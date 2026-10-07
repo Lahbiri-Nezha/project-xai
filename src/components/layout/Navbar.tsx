@@ -32,7 +32,7 @@ export default function Navbar() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-lime">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand">
             <Zap className="h-4 w-4 text-white" />
           </div>
           <span className="text-base font-bold tracking-tight text-foreground">
@@ -45,7 +45,7 @@ export default function Navbar() {
             <Link
               key={item.label}
               href={item.href}
-              className="text-sm font-medium text-text-secondary transition-colors hover:text-lime-dark"
+              className="text-sm font-medium text-text-secondary transition-colors hover:text-brand-strong"
             >
               {item.label}
             </Link>
@@ -61,7 +61,7 @@ export default function Navbar() {
           </Link>
           <Link
             href="/signup"
-            className="text-sm font-semibold text-white bg-lime hover:bg-lime-dark px-5 py-2 rounded-lg transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-lime/15"
+            className="text-sm font-semibold text-white bg-brand hover:bg-brand-strong px-5 py-2 rounded-lg transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/15"
           >
             {t("startFreeTrial")}
           </Link>
@@ -106,7 +106,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/signup"
-                className="w-full text-center bg-lime text-white font-semibold py-2.5 rounded-lg"
+                className="w-full text-center bg-brand text-white font-semibold py-2.5 rounded-lg"
               >
                 {t("startFreeTrial")}
               </Link>

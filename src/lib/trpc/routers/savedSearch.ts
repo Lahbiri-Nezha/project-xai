@@ -85,6 +85,7 @@ export const savedSearchRouter = router({
       const parsed = companyFiltersSchema.safeParse(search.filtersJson);
       const filters = parsed.success ? parsed.data : {};
       const result = await searchCompanies({
+        organizationId: ctx.orgId,
         query: undefined,
         filters,
         limit: 50,

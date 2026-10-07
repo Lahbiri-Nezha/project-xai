@@ -64,11 +64,27 @@ export function computeScoreFromLead(lead: {
     revenueEstimate?: number | null;
     fundingStage?: string | null;
     techStack?: string[] | null;
+    buyingSignals?: { type: string; intensity: number }[];
   } | null;
   signals?: { type: string; value: string; weight?: number | null }[];
 }): ScoreResult {
   const company = lead.company ?? {};
-  const signals = lead.signals ?? [];
+  // Company signals are the canonical source. Older leads may also have a
+  // mirrored Signal record, so retain the highest strength once per type.
+  const signalWeights = new Map<string, number>();
+  for (const signal of lead.signals ?? []) {
+    signalWeights.set(
+      signal.type,
+      Math.max(signalWeights.get(signal.type) ?? 0, Math.min(10, signal.weight ?? 1))
+    );
+  }
+  for (const signal of company.buyingSignals ?? []) {
+    signalWeights.set(
+      signal.type,
+      Math.max(signalWeights.get(signal.type) ?? 0, Math.min(10, signal.intensity))
+    );
+  }
+  const signals = [...signalWeights.entries()].map(([type, weight]) => ({ type, weight }));
   const title = lead.title ?? "";
   const upperTitle = title.toUpperCase();
   const factors: ScoreFactor[] = [];
@@ -104,7 +120,7 @@ export function computeScoreFromLead(lead: {
   // 2. Signaux d'achat (weight 30)
   const signalScore = Math.min(
     30,
-    signals.reduce((acc, s) => acc + Math.min(10, s.weight ?? 1) * 4, 0)
+    signals.reduce((acc, s) => acc + s.weight * 4, 0)
   );
   const signalLabels = signals.map((s) => SIGNAL_LABELS[s.type] ?? s.type);
   const signalNote =
@@ -220,7 +236,7 @@ export function computeScoreFromLead(lead: {
 export async function scoreLead(leadId: string): Promise<ScoreResult> {
   const lead = await prisma.lead.findUniqueOrThrow({
     where: { id: leadId },
-    include: { company: true, signals: true },
+    include: { company: { include: { buyingSignals: true } }, signals: true },
   });
 
   const result = computeScoreFromLead(lead);

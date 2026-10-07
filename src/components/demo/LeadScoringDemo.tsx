@@ -64,7 +64,7 @@ export default function LeadScoringDemo() {
       intent: "WARM",
       signals: [t("demoSignalPricing"), t("demoSignalSite")],
       avatar: "MP",
-      avatarGradient: "from-lime/80 to-lime/40",
+      avatarGradient: "from-brand/80 to-brand/40",
     },
     {
       name: "PortTech Tanger",
@@ -95,9 +95,9 @@ export default function LeadScoringDemo() {
 
   return (
     <div className="relative w-full max-w-lg">
-      <div className="absolute -top-6 -left-6 w-20 h-20 rounded-2xl bg-lime/8 animate-pulse" />
+      <div className="absolute -top-6 -left-6 w-20 h-20 rounded-2xl bg-brand/8 animate-pulse" />
       <div className="absolute top-1/4 -right-8 w-14 h-14 rounded-xl bg-purple/8" />
-      <div className="absolute bottom-8 -left-4 w-10 h-10 rounded-full bg-gradient-to-br from-purple/10 to-lime/8" />
+      <div className="absolute bottom-8 -left-4 w-10 h-10 rounded-full bg-gradient-to-br from-purple/10 to-brand/8" />
 
       <div className="relative rounded-2xl border border-border-default bg-surface shadow-xl shadow-black/[0.06] p-1">
         <div className="rounded-xl bg-background overflow-hidden">
@@ -116,12 +116,12 @@ export default function LeadScoringDemo() {
                 {
                   label: t("demoStatScore"),
                   value: "94",
-                  accent: "bg-lime/10 text-lime-dark",
+                  accent: "bg-brand/10 text-brand-strong",
                 },
                 {
                   label: t("demoStatIntent"),
                   value: t("demoStatHigh"),
-                  accent: "bg-purple-light text-purple",
+                  accent: "bg-brand-soft text-brand-strong",
                 },
                 {
                   label: t("demoStatFit"),
@@ -150,10 +150,10 @@ export default function LeadScoringDemo() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="rounded-xl border border-lime/25 bg-lime/8 p-4 flex items-center gap-3"
+                  className="rounded-xl border border-brand/25 bg-brand/8 p-4 flex items-center gap-3"
                 >
-                  <div className="h-2 w-2 rounded-full bg-lime animate-pulse" />
-                  <span className="text-xs font-semibold text-lime-dark">
+                  <div className="h-2 w-2 rounded-full bg-brand animate-pulse" />
+                  <span className="text-xs font-semibold text-brand-strong">
                     {t("demoAnalyzing")}
                   </span>
                 </motion.div>
@@ -182,7 +182,7 @@ export default function LeadScoringDemo() {
                       <p className="text-sm font-semibold text-foreground">
                         {lead.name}
                       </p>
-                      <p className="text-xs" style={{ color: "#8FA0AE" }}>
+                      <p className="text-xs text-text-muted">
                         {lead.industry} &middot; {lead.stage}
                       </p>
                     </div>

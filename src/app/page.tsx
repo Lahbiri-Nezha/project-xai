@@ -5,6 +5,8 @@ import FloatingHelp from "@/components/layout/FloatingHelp";
 import HeroSection from "@/components/landing/HeroSection";
 import LogoStrip from "@/components/landing/LogoStrip";
 import FeaturesSection from "@/components/landing/FeaturesSection";
+import HowItWorksSection from "@/components/landing/HowItWorksSection";
+import PricingSection from "@/components/landing/PricingSection";
 import StatsSection from "@/components/landing/StatsSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import WaitlistSection from "@/components/landing/WaitlistSection";
@@ -23,8 +25,10 @@ export default function Home() {
         <HeroSection />
         <LogoStrip />
         <FeaturesSection />
+        <HowItWorksSection />
         <StatsSection />
         <TestimonialsSection />
+        <PricingSection />
         <WaitlistSection />
         <CTASection />
       </main>

@@ -142,11 +142,11 @@ export async function POST(request: NextRequest) {
     if (companyName) {
       const existing = domain
         ? await prisma.company.findFirst({
-            where: { OR: [{ domain }, { name: { equals: companyName, mode: "insensitive" } }] },
+            where: { organizationId: orgId, OR: [{ domain }, { name: { equals: companyName, mode: "insensitive" } }] },
             select: { id: true },
           })
         : await prisma.company.findFirst({
-            where: { name: { equals: companyName, mode: "insensitive" } },
+            where: { organizationId: orgId, name: { equals: companyName, mode: "insensitive" } },
             select: { id: true },
           });
       if (existing) {
@@ -154,6 +154,7 @@ export async function POST(request: NextRequest) {
       } else {
         const company = await prisma.company.create({
           data: {
+            organizationId: orgId,
             name: companyName,
             domain,
             industry: get("industry") || undefined,

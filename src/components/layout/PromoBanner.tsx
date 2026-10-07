@@ -31,7 +31,7 @@ export default function PromoBanner() {
           initial={{ height: 40, opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="relative bg-lime text-white overflow-hidden"
+          className="relative bg-brand text-white overflow-hidden"
         >
           <div className="mx-auto flex h-10 max-w-7xl items-center justify-center px-4 text-center">
             <div className="flex items-center gap-2">

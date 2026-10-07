@@ -23,7 +23,7 @@ export default function TeamPage() {
             {t("subtitle")}
           </p>
         </div>
-        <button className="bg-lime hover:bg-lime-dark text-white font-semibold px-4 py-2 rounded-lg transition-all hover:-translate-y-0.5 text-sm">
+        <button className="bg-brand hover:bg-brand-strong text-white font-semibold px-4 py-2 rounded-lg transition-all hover:-translate-y-0.5 text-sm">
           {t("invite")}
         </button>
       </div>
@@ -37,7 +37,7 @@ export default function TeamPage() {
           list.map((member) => (
             <div key={member.id} className="px-5 py-3.5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-full bg-lime/10 flex items-center justify-center text-xs font-bold text-lime-dark">
+                <div className="h-9 w-9 rounded-full bg-brand/10 flex items-center justify-center text-xs font-bold text-brand-strong">
                   {(member.user.name?.split(" ").map((n) => n[0]).join("") ?? member.user.email?.[0]?.toUpperCase() ?? "?")}
                 </div>
                 <div>

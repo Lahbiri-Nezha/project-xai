@@ -62,7 +62,13 @@
       "signingIn": "Signing in...",
       "noAccount": "Don't have an account?",
       "signUp": "Sign Up",
-      "genericError": "An error occurred. Please try again."
+      "genericError": "An error occurred. Please try again.",
+      "emailRequired": "Please enter your email address.",
+      "invalidEmail": "Please enter a valid email address.",
+      "passwordRequired": "Please enter your password.",
+      "invalidCredentials": "Incorrect email or password.",
+      "emailNotVerified": "Please verify your email address before signing in.",
+      "tooManyRequests": "Too many attempts. Please try again in a few moments."
     },
     "signup": {
       "title": "Create your account",
@@ -79,7 +85,16 @@
       "creatingAccount": "Creating account...",
       "hasAccount": "Already have an account?",
       "signIn": "Sign In",
-      "genericError": "An error occurred. Please try again."
+      "genericError": "An error occurred. Please try again.",
+      "nameRequired": "Please enter your name.",
+      "emailRequired": "Please enter your email address.",
+      "invalidEmail": "Please enter a valid email address.",
+      "passwordTooShort": "The password must be at least 8 characters long.",
+      "userExists": "An account already exists with this email address.",
+      "tooManyRequests": "Too many attempts. Please try again in a few moments.",
+      "companyRequired": "Please enter your company name.",
+      "orgError": "Your account was created, but workspace creation failed (name already taken?). Edit the name and try again.",
+      "retryOrg": "Retry workspace creation"
     }
   },
   "dashboard": {
@@ -621,6 +636,36 @@
     "demoSignalTechMatch": "Compatible tech stack",
     "demoSignalPricing": "Pricing page visited",
     "demoSignalSite": "Website visited",
-    "demoSignalBlog": "Read blog only"
+    "demoSignalBlog": "Read blog only",
+    "howBadge": "In three steps",
+    "howTitle1": "How",
+    "howTitle2": "it works",
+    "howSubtitle": "From signal collection to an explainable score, with no black box.",
+    "howStep1Number": "Step 1",
+    "howStep1Title": "Collect signals",
+    "howStep1Desc": "We identify the companies worth targeting, then collect their buying signals: hiring, funding, organisational changes, technology adoption.",
+    "howStep2Number": "Step 2",
+    "howStep2Title": "Deterministic scoring",
+    "howStep2Desc": "A rules engine weights each signal. The same profile always produces the same score: no randomness, no black box.",
+    "howStep3Number": "Step 3",
+    "howStep3Title": "Prioritise and explain",
+    "howStep3Desc": "Leads are ranked by score, and every rating is broken down into factors your sales team can read.",
+    "pricingBadge": "Pricing",
+    "pricingTitle1": "Plans that",
+    "pricingTitle2": "grow with you",
+    "pricingSubtitle": "Start free, upgrade when your volume justifies it. Prices in dirhams.",
+    "pricingPopular": "Most popular",
+    "pricingCta": "Get started",
+    "navSignUp": "Sign up",
+    "footerGetStarted": "Get started",
+    "footerGetStartedDesc": "Create your account and score your first leads in minutes."
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "This content could not be loaded. You can retry without losing your session.",
+    "retry": "Try again",
+    "digest": "Reference: {digest}",
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "This page does not exist or has been moved."
   }
 }

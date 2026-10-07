@@ -9,7 +9,12 @@ export const savedSearchCheckFunction = inngest.createFunction(
     withMetrics("saved-search-check", async () => {
       const searches = await prisma.savedSearch.findMany({
         where: { notifyFrequency: { in: ["daily", "weekly"] } },
-        select: { id: true, filtersJson: true, lastResultCount: true },
+        select: {
+          id: true,
+          organizationId: true,
+          filtersJson: true,
+          lastResultCount: true,
+        },
       });
 
       const updated: { id: string; newCount: number }[] = [];
@@ -17,6 +22,7 @@ export const savedSearchCheckFunction = inngest.createFunction(
         const parsed = companyFiltersSchema.safeParse(search.filtersJson);
         const filters = parsed.success ? parsed.data : {};
         const result = await searchCompanies({
+          organizationId: search.organizationId,
           query: undefined,
           filters,
           limit: 1,

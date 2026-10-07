@@ -59,10 +59,11 @@ const KEYWORD_STOPWORDS = new Set([
 ]);
 
 function buildWhere(
+  organizationId: string,
   filters: CompanyFilters,
   keyword?: string
 ): Prisma.CompanyWhereInput {
-  const where: Prisma.CompanyWhereInput = {};
+  const where: Prisma.CompanyWhereInput = { organizationId };
 
   if (filters.employeesMin != null || filters.employeesMax != null) {
     where.employeeCount = {
@@ -133,6 +134,7 @@ function computeFitScore(company: {
 }
 
 export async function searchCompanies(params: {
+  organizationId: string;
   query?: string;
   filters: CompanyFilters;
   limit: number;
@@ -152,7 +154,7 @@ export async function searchCompanies(params: {
     }
   }
 
-  const where = buildWhere(filters, keyword);
+  const where = buildWhere(params.organizationId, filters, keyword);
 
   const [companies, total] = await Promise.all([
     prisma.company.findMany({
@@ -184,8 +186,9 @@ export const companyRouter = router({
         offset: z.number().int().min(0).default(0),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ ctx, input }) => {
       return searchCompanies({
+        organizationId: ctx.orgId,
         query: input.query,
         filters: input.filters ?? {},
         limit: input.limit,
@@ -196,10 +199,10 @@ export const companyRouter = router({
   getById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      const company = await ctx.prisma.company.findUnique({
-        where: { id: input.id },
+      const company = await ctx.prisma.company.findFirst({
+        where: { id: input.id, organizationId: ctx.orgId },
         include: {
-          leads: { include: { signals: true } },
+          leads: { where: { organizationId: ctx.orgId }, include: { signals: true } },
           buyingSignals: { orderBy: { detectedAt: "desc" } },
           dataSources: { orderBy: { fetchedAt: "desc" } },
         },
@@ -212,10 +215,7 @@ export const companyRouter = router({
     .input(z.object({ companyId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const company = await ctx.prisma.company.findFirst({
-        where: {
-          id: input.companyId,
-          leads: { some: { organizationId: ctx.orgId } },
-        },
+        where: { id: input.companyId, organizationId: ctx.orgId },
         select: { id: true },
       });
       if (!company) {
@@ -242,8 +242,9 @@ export const companyRouter = router({
         filters: companyFiltersSchema.optional(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ ctx, input }) => {
       const { companies } = await searchCompanies({
+        organizationId: ctx.orgId,
         query: input.query,
         filters: input.filters ?? {},
         limit: 500,

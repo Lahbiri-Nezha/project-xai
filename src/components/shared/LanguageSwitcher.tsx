@@ -17,7 +17,7 @@ export function LanguageSwitcher() {
 
   return (
     <div className="flex items-center gap-1.5">
-      <Globe className="h-4 w-4 shrink-0 text-slate-400" />
+      <Globe className="h-4 w-4 shrink-0 text-text-secondary" />
       <select
         aria-label={t("language")}
         value={locale}
@@ -25,7 +25,7 @@ export function LanguageSwitcher() {
           document.cookie = `NEXT_LOCALE=${e.target.value}; path=/; max-age=31536000; samesite=lax`;
           router.refresh();
         }}
-        className="rounded-lg border border-slate-700 bg-slate-800 px-2 py-1 text-xs text-slate-200 outline-none focus:border-slate-500"
+        className="rounded-lg border border-border bg-surface px-2 py-1 text-xs text-foreground outline-none focus:border-brand focus:ring-2 focus:ring-brand/40"
       >
         {LOCALES.map((l) => (
           <option key={l.value} value={l.value}>

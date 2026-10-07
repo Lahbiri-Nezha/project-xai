@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { router, protectedProcedure } from "../server";
+import { router, protectedProcedure, adminProcedure } from "../server";
 import {
   normalizeValue,
   complianceTypes,
@@ -18,7 +18,7 @@ export const complianceRouter = router({
     });
   }),
 
-  create: protectedProcedure
+  create: adminProcedure
     .input(
       z.object({
         value: z.string().min(1).max(500),
@@ -54,7 +54,7 @@ export const complianceRouter = router({
       });
     }),
 
-  remove: protectedProcedure
+  remove: adminProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const res = await ctx.prisma.complianceFlag.deleteMany({
@@ -83,7 +83,7 @@ export const complianceRouter = router({
       });
     }),
 
-  accessLogs: protectedProcedure
+  accessLogs: adminProcedure
     .input(
       z.object({
         entityType: z.string().optional(),

@@ -87,8 +87,8 @@ export default function CompliancePage() {
     <>
       <TopBar title={t("title")} />
       <div className="flex-1 p-6 overflow-auto space-y-6">
-        <div className="rounded-xl bg-lime/8 border border-border p-6">
-          <p className="text-xs font-semibold uppercase tracking-wider text-lime-dark mb-1">
+        <div className="rounded-xl bg-brand/8 border border-border p-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-brand-strong mb-1">
             {t("trustBadge")}
           </p>
           <h2 className="text-xl font-bold text-foreground">{t("registerTitle")}</h2>
@@ -108,7 +108,7 @@ export default function CompliancePage() {
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 placeholder={t("emailOrPhonePlaceholder")}
-                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50"
               />
             </div>
             <div>
@@ -118,7 +118,7 @@ export default function CompliancePage() {
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as "OPT_OUT" | "DO_NOT_CALL" | "SUPPRESSED")}
-                className="mt-1 rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
               >
                 <option value="OPT_OUT">{t("typeOptOut")}</option>
                 <option value="DO_NOT_CALL">{t("typeDoNotCall")}</option>
@@ -133,13 +133,13 @@ export default function CompliancePage() {
                 value={source}
                 onChange={(e) => setSource(e.target.value)}
                 placeholder={t("sourcePlaceholder")}
-                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50"
               />
             </div>
             <button
               onClick={() => value.trim() && createFlag.mutate({ value: value.trim(), type, source: source.trim() || undefined })}
               disabled={!value.trim() || createFlag.isPending}
-              className="inline-flex items-center gap-2 rounded-lg bg-lime hover:bg-lime-dark text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-brand hover:bg-brand-strong text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
             >
               <Plus className="h-4 w-4" />
               {t("add")}
@@ -159,13 +159,13 @@ export default function CompliancePage() {
                 onChange={(e) => setCheckValue(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && runCheck()}
                 placeholder={t("emailOrPhonePlaceholder")}
-                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50"
+                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50"
               />
             </div>
             <button
               onClick={runCheck}
               disabled={!checkValue.trim() || checking}
-              className="inline-flex items-center gap-2 rounded-lg bg-surface-elevated text-foreground font-semibold px-4 py-2 text-sm transition-colors hover:bg-lime/10 hover:text-lime-dark disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-surface-elevated text-foreground font-semibold px-4 py-2 text-sm transition-colors hover:bg-brand/10 hover:text-brand-strong disabled:opacity-50"
             >
               <ShieldCheck className="h-4 w-4" />
               {checking ? t("checking") : t("check")}
@@ -195,7 +195,7 @@ export default function CompliancePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="rounded-xl bg-surface border border-border">
             <div className="px-5 py-4 border-b border-border flex items-center gap-2">
-              <ShieldAlert className="h-4 w-4 text-lime-dark" />
+              <ShieldAlert className="h-4 w-4 text-brand-strong" />
               <h3 className="text-base font-bold text-foreground">{t("exclusionsTitle", { count: data?.length ?? 0 })}</h3>
             </div>
             <div className="divide-y divide-border">
@@ -235,7 +235,7 @@ export default function CompliancePage() {
 
           <div className="rounded-xl bg-surface border border-border">
             <div className="px-5 py-4 border-b border-border flex items-center gap-2">
-              <History className="h-4 w-4 text-lime-dark" />
+              <History className="h-4 w-4 text-brand-strong" />
               <h3 className="text-base font-bold text-foreground">{t("accessTitle")}</h3>
             </div>
             <div className="divide-y divide-border max-h-[400px] overflow-auto">
@@ -253,7 +253,7 @@ export default function CompliancePage() {
                     className="px-5 py-3 flex items-center justify-between gap-3"
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <ShieldCheck className="h-3.5 w-3.5 text-lime-dark shrink-0" />
+                      <ShieldCheck className="h-3.5 w-3.5 text-brand-strong shrink-0" />
                       <div className="min-w-0">
                         <p className="text-xs font-medium text-foreground truncate">
                           {ACTION_LABEL[log.action] ?? log.action}

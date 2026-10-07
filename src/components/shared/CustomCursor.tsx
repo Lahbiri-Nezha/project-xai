@@ -80,11 +80,11 @@ export default function CustomCursor() {
       }}
     >
       <motion.div
-        className="w-full h-full rounded-full bg-lime"
+        className="w-full h-full rounded-full bg-brand"
         animate={{
           boxShadow: isHovering
-            ? "0 0 20px 4px rgba(232, 245, 41, 0.4)"
-            : "0 0 0 0 rgba(232, 245, 41, 0)",
+            ? "0 0 20px 4px rgba(74, 63, 196, 0.35)"
+            : "0 0 0 0 rgba(74, 63, 196, 0)",
         }}
         transition={{ duration: 0.3 }}
       />

@@ -198,7 +198,7 @@ export default function LeadsPage() {
                 onClick={() => resetPage(() => setIntent(f))}
                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
                   intent === f
-                    ? "bg-lime text-ink"
+                    ? "bg-brand text-white"
                     : "bg-surface-elevated text-text-secondary hover:text-foreground"
                 }`}
               >
@@ -212,7 +212,7 @@ export default function LeadsPage() {
                 onClick={() => resetPage(() => setStatus(f))}
                 className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
                   status === f
-                    ? "bg-lime/15 text-lime-dark"
+                    ? "bg-brand/15 text-brand-strong"
                     : "text-text-muted hover:text-foreground"
                 }`}
               >
@@ -239,7 +239,7 @@ export default function LeadsPage() {
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={importing}
-              className="inline-flex items-center gap-2 rounded-lg bg-lime px-3 py-2 text-sm font-bold text-ink hover:bg-lime-dark disabled:opacity-60 transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg bg-brand px-3 py-2 text-sm font-bold text-white hover:bg-brand-strong disabled:opacity-60 transition-colors"
             >
               <Upload className="h-4 w-4" />
               {importing ? t("importing") : t("importCsv")}
@@ -261,7 +261,7 @@ export default function LeadsPage() {
                 value={search}
                 onChange={(e) => resetPage(() => setSearch(e.target.value))}
                 placeholder={t("searchByTitle")}
-                className="w-full rounded-lg border border-border bg-surface pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50 focus:border-lime"
+                className="w-full rounded-lg border border-border bg-surface pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand"
               />
             </div>
           </div>
@@ -285,7 +285,7 @@ export default function LeadsPage() {
                     type={key === "email" ? "email" : "text"}
                     value={addForm[key]}
                     onChange={(e) => setAddForm((f) => ({ ...f, [key]: e.target.value }))}
-                    className="w-full rounded-lg border border-border bg-surface-elevated px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-lime/50 focus:border-lime"
+                    className="w-full rounded-lg border border-border bg-surface-elevated px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand"
                   />
                 </div>
               ))}
@@ -294,7 +294,7 @@ export default function LeadsPage() {
               <button
                 onClick={handleCreate}
                 disabled={createLead.isPending || (!addForm.email && !addForm.companyName)}
-                className="rounded-lg bg-lime px-4 py-2 text-sm font-bold text-ink hover:bg-lime-dark disabled:opacity-50 transition-colors"
+                className="rounded-lg bg-brand px-4 py-2 text-sm font-bold text-white hover:bg-brand-strong disabled:opacity-50 transition-colors"
               >
                 {createLead.isPending ? t("creating") : t("createLead")}
               </button>
@@ -412,11 +412,11 @@ export default function LeadsPage() {
                   >
                     <td className="px-5 py-3.5">
                       <Link href={`/dashboard/leads/${lead.id}`} className="flex items-center gap-3 group">
-                        <div className="h-9 w-9 rounded-lg bg-lime/10 flex items-center justify-center text-xs font-bold text-lime-dark">
+                        <div className="h-9 w-9 rounded-lg bg-brand/10 flex items-center justify-center text-xs font-bold text-brand-strong">
                           {(lead.firstName?.[0] ?? "?") + (lead.lastName?.[0] ?? "")}
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-foreground group-hover:text-lime transition-colors">
+                          <p className="text-sm font-semibold text-foreground group-hover:text-brand transition-colors">
                             {lead.firstName} {lead.lastName}
                           </p>
                           <p className="text-xs text-text-muted">{lead.email}</p>
@@ -459,7 +459,7 @@ export default function LeadsPage() {
                             })
                           }
                           disabled={changeStatus.isPending}
-                          className="rounded-md border border-border bg-surface px-2 py-1 text-xs text-text-secondary focus:outline-none focus:ring-2 focus:ring-lime/40 disabled:opacity-50"
+                          className="rounded-md border border-border bg-surface px-2 py-1 text-xs text-text-secondary focus:outline-none focus:ring-2 focus:ring-brand/40 disabled:opacity-50"
                         >
                           {LEAD_STATUSES.map((s) => (
                             <option key={s} value={s}>

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { router, protectedProcedure } from "../server";
+import { router, protectedProcedure, ownerProcedure } from "../server";
 import { PLANS, type PlanKey } from "@/lib/stripe";
 import { getStripe } from "@/lib/stripe";
 
@@ -31,7 +31,7 @@ export const billingRouter = router({
     };
   }),
 
-  createCheckout: protectedProcedure
+  createCheckout: ownerProcedure
     .input(z.object({ plan: z.enum(["STARTER", "PRO"]) }))
     .mutation(async ({ ctx, input }) => {
       if (!process.env.STRIPE_SECRET_KEY) {
@@ -72,7 +72,7 @@ export const billingRouter = router({
       return { url: session.url };
     }),
 
-  cancelSubscription: protectedProcedure.mutation(async ({ ctx }) => {
+  cancelSubscription: ownerProcedure.mutation(async ({ ctx }) => {
     const org = await ctx.prisma.organization.findUnique({
       where: { id: ctx.orgId },
       select: { stripeSubscriptionId: true },

@@ -21,7 +21,7 @@ export default function FloatingHelp() {
           >
             <div className="bg-surface-elevated px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <MessageSquare className="h-4 w-4 text-lime-dark" />
+                <MessageSquare className="h-4 w-4 text-brand-strong" />
                 <span className="text-sm font-semibold text-foreground">
                   {t("needHelp")}
                 </span>
@@ -37,7 +37,7 @@ export default function FloatingHelp() {
               <p className="text-sm text-text-secondary">
                 {t("helpText")}
               </p>
-              <button className="w-full rounded-lg bg-lime text-white text-sm font-semibold py-2.5 transition-all hover:bg-lime-dark hover:-translate-y-0.5">
+              <button className="w-full rounded-lg bg-brand text-white text-sm font-semibold py-2.5 transition-all hover:bg-brand-strong hover:-translate-y-0.5">
                 {t("startConversation")}
               </button>
               <button className="w-full rounded-lg bg-surface-elevated text-foreground text-sm font-medium py-2.5 transition-all hover:bg-border-default">
@@ -50,7 +50,7 @@ export default function FloatingHelp() {
 
       <motion.button
         onClick={() => setOpen(!open)}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-lime text-white shadow-xl shadow-lime/15 transition-all hover:shadow-2xl hover:shadow-lime/25"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-xl shadow-brand/15 transition-all hover:shadow-2xl hover:shadow-brand/25"
         whileHover={{ scale: 1.1 }}
         animate={{ y: [0, -4, 0] }}
         transition={{ y: { duration: 2, repeat: Infinity, ease: "easeInOut" } }}

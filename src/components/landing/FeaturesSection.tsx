@@ -64,7 +64,7 @@ function buildFeatures(t: T) {
         <div className="mt-4 space-y-2">
           {[
             { stage: t("stageDiscovery"), width: "85%", color: "bg-purple" },
-            { stage: t("stageProposal"), width: "60%", color: "bg-lime" },
+            { stage: t("stageProposal"), width: "60%", color: "bg-brand" },
             { stage: t("stageNegotiation"), width: "35%", color: "bg-lead-medium" },
             { stage: t("stageWon"), width: "45%", color: "bg-lead-excellent" },
           ].map((s) => (
@@ -91,8 +91,8 @@ function buildFeatures(t: T) {
       visual: (
         <div className="mt-4 rounded-lg bg-background border border-border-default p-3 space-y-2">
           <div className="flex items-center gap-2 pb-2 border-b border-border-default">
-            <div className="h-8 w-8 rounded-lg bg-lime/10 flex items-center justify-center">
-              <Target className="h-4 w-4 text-lime-dark" />
+            <div className="h-8 w-8 rounded-lg bg-brand/10 flex items-center justify-center">
+              <Target className="h-4 w-4 text-brand-strong" />
             </div>
             <div>
               <p className="text-xs font-semibold text-foreground">
@@ -165,7 +165,7 @@ function buildFeatures(t: T) {
               {t("copilotAsk")}
             </p>
           </div>
-          <div className="rounded-lg bg-lime/10 border border-lime/20 p-2.5 max-w-[90%] ml-auto">
+          <div className="rounded-lg bg-brand/10 border border-brand/20 p-2.5 max-w-[90%] ml-auto">
             <p className="text-[10px] text-foreground">
               {t("copilotAnswer")}
             </p>
@@ -183,7 +183,7 @@ export default function FeaturesSection() {
     <section id="features" className="bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <ScrollReveal variant="perspectiveShift" className="mx-auto max-w-2xl text-center mb-16">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-lime-dark mb-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-strong mb-4">
             {t("featuresBadge")}
           </p>
           <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground leading-tight">
@@ -208,13 +208,13 @@ export default function FeaturesSection() {
                 delay: i * 0.1,
               }}
               whileHover={{
-                borderColor: "rgba(185, 138, 62, 0.3)",
+                borderColor: "rgba(74, 63, 196, 0.3)",
                 scale: 1.01,
               }}
               className={`rounded-2xl bg-surface border border-border-default p-6 ${feature.colSpan}`}
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-lime/10">
-                <feature.icon className="h-5 w-5 text-lime-dark" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10">
+                <feature.icon className="h-5 w-5 text-brand-strong" />
               </div>
               <h3 className="mt-4 text-lg font-bold text-foreground">
                 {feature.title}

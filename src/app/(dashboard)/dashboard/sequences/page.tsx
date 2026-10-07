@@ -133,7 +133,7 @@ export default function SequencesPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t("namePlaceholder")}
-              className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50"
+              className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50"
             />
           </div>
 
@@ -180,7 +180,7 @@ export default function SequencesPage() {
           <div className="mt-3 flex items-center gap-3">
             <button
               onClick={() => setSteps((prev) => [...prev, { channel: "EMAIL", delayDays: 5, template: "" }])}
-              className="text-xs font-medium text-lime hover:text-lime-dark inline-flex items-center gap-1"
+              className="text-xs font-medium text-brand hover:text-brand-strong inline-flex items-center gap-1"
             >
               <Plus className="h-3.5 w-3.5" />
               {t("addStep")}
@@ -188,7 +188,7 @@ export default function SequencesPage() {
             <button
               onClick={save}
               disabled={!name.trim()}
-              className="inline-flex items-center gap-2 rounded-lg bg-lime hover:bg-lime-dark text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-brand hover:bg-brand-strong text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
             >
               <Plus className="h-4 w-4" />
               {t("createSequence")}
@@ -207,8 +207,8 @@ export default function SequencesPage() {
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="h-9 w-9 rounded-lg bg-lime/10 flex items-center justify-center shrink-0">
-                    <Timer className="h-4 w-4 text-lime-dark" />
+                  <div className="h-9 w-9 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+                    <Timer className="h-4 w-4 text-brand-strong" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-foreground truncate">{seq.name}</p>
@@ -220,7 +220,7 @@ export default function SequencesPage() {
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     onClick={() => toggleActive.mutate({ id: seq.id, active: !seq.active })}
-                    className={`text-[10px] font-bold px-2 py-1 rounded-full transition-colors ${seq.active ? "bg-lime/15 text-lime-dark" : "bg-surface-elevated text-text-muted"}`}
+                    className={`text-[10px] font-bold px-2 py-1 rounded-full transition-colors ${seq.active ? "bg-brand/15 text-brand-strong" : "bg-surface-elevated text-text-muted"}`}
                   >
                     {seq.active ? t("active") : t("inactive")}
                   </button>
@@ -254,7 +254,7 @@ export default function SequencesPage() {
                 }}
                 className={`mt-4 inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
                   selectedSequence === seq.id
-                    ? "bg-lime/15 text-lime-dark"
+                    ? "bg-brand/15 text-brand-strong"
                     : "bg-surface-elevated text-text-secondary hover:text-foreground"
                 }`}
               >
@@ -266,7 +266,7 @@ export default function SequencesPage() {
         </div>
 
         {selectedSequence && (
-          <div className="rounded-xl bg-surface border border-lime/20 p-6">
+          <div className="rounded-xl bg-surface border border-brand/20 p-6">
             <h3 className="text-sm font-bold text-foreground mb-4">{t("enrollTitle")}</h3>
             <div className="flex flex-wrap items-end gap-3">
               <div className="flex-1 min-w-[220px]">
@@ -274,7 +274,7 @@ export default function SequencesPage() {
                 <select
                   value={selectedLead}
                   onChange={(e) => setSelectedLead(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-lime/50"
+                  className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
                 >
                   <option value="">{t("chooseLead")}</option>
                   {leadData?.leads.map((l) => (
@@ -287,7 +287,7 @@ export default function SequencesPage() {
               <button
                 onClick={doEnroll}
                 disabled={!selectedLead}
-                className="inline-flex items-center gap-2 rounded-lg bg-lime hover:bg-lime-dark text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-lg bg-brand hover:bg-brand-strong text-white font-semibold px-4 py-2 text-sm transition-colors disabled:opacity-50"
               >
                 <Send className="h-4 w-4" />
                 {t("enroll")}
@@ -296,7 +296,7 @@ export default function SequencesPage() {
             {enrollResult && (
               <p
                 className={`mt-3 flex items-center gap-2 text-xs font-medium ${
-                  enrollBlocked ? "text-red-500" : "text-lime-dark"
+                  enrollBlocked ? "text-red-500" : "text-brand-strong"
                 }`}
               >
                 <ShieldAlert className="h-3.5 w-3.5" />

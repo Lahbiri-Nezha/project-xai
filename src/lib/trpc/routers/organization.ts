@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { router, protectedProcedure } from "../server";
+import { router, protectedProcedure, adminProcedure } from "../server";
 
 export const organizationRouter = router({
   getCurrent: protectedProcedure.query(async ({ ctx }) => {
@@ -13,7 +13,7 @@ export const organizationRouter = router({
     });
   }),
 
-  update: protectedProcedure
+  update: adminProcedure
     .input(z.object({ name: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.organization.update({

@@ -61,7 +61,7 @@ export default function HeroSection() {
     <section className="relative overflow-hidden bg-background pt-16 pb-20 sm:pt-24 sm:pb-28 lg:pt-32 lg:pb-36">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple/5 to-transparent blur-3xl" />
-        <div className="absolute top-1/2 -left-20 w-72 h-72 rounded-full bg-gradient-to-tr from-lime/8 to-transparent blur-3xl" />
+        <div className="absolute top-1/2 -left-20 w-72 h-72 rounded-full bg-gradient-to-tr from-brand/8 to-transparent blur-3xl" />
         <div className="absolute -bottom-20 right-1/4 w-64 h-64 rounded-full bg-gradient-to-tl from-purple/3 to-transparent blur-3xl" />
       </div>
 
@@ -76,13 +76,13 @@ export default function HeroSection() {
             <motion.div
               variants={fadeUp}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2 rounded-full border border-lime/25 bg-lime/8 px-4 py-1.5 mb-8"
+              className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/8 px-4 py-1.5 mb-8"
             >
               <span className="flex h-2 w-2 items-center justify-center">
-                <span className="absolute h-2 w-2 rounded-full bg-lime animate-ping" />
-                <span className="relative h-1.5 w-1.5 rounded-full bg-lime" />
+                <span className="absolute h-2 w-2 rounded-full bg-brand animate-ping" />
+                <span className="relative h-1.5 w-1.5 rounded-full bg-brand" />
               </span>
-              <span className="text-xs font-semibold uppercase tracking-widest text-lime-dark">
+              <span className="text-xs font-semibold uppercase tracking-widest text-brand-strong">
                 {t("heroBadge")}
               </span>
             </motion.div>
@@ -96,7 +96,7 @@ export default function HeroSection() {
               <span className="relative mt-1 block">
                 {displayText}
                 <span
-                  className="inline-block w-[3px] h-[0.8em] bg-lime ml-1 align-middle"
+                  className="inline-block w-[3px] h-[0.8em] bg-brand ml-1 align-middle"
                   style={{
                     animation:
                       "pulse 1s step-end infinite",
@@ -124,7 +124,7 @@ export default function HeroSection() {
             >
               <MagneticButton
                 onClick={() => router.push("/signup")}
-                className="bg-lime hover:bg-lime-dark text-white text-base font-semibold px-8 h-12 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-lime/15 inline-flex items-center"
+                className="bg-brand hover:bg-brand-strong text-white text-base font-semibold px-8 h-12 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand/15 inline-flex items-center"
               >
                 {t("startFreeTrial")}
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />

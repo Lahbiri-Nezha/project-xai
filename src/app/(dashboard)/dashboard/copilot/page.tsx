@@ -40,14 +40,14 @@ function formatMessage(content: string): React.ReactNode[] {
 function TypingIndicator() {
   return (
     <div className="flex gap-3">
-      <div className="h-8 w-8 rounded-lg bg-lime/10 flex items-center justify-center shrink-0">
-        <Bot className="h-4 w-4 text-lime-dark" />
+      <div className="h-8 w-8 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+        <Bot className="h-4 w-4 text-brand-strong" />
       </div>
       <div className="bg-surface border border-border-default rounded-xl px-4 py-3 text-sm">
         <div className="flex items-center gap-1.5">
-          <span className="h-1.5 w-1.5 rounded-full bg-lime animate-bounce" style={{ animationDelay: "0ms" }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-lime animate-bounce" style={{ animationDelay: "150ms" }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-lime animate-bounce" style={{ animationDelay: "300ms" }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-brand animate-bounce" style={{ animationDelay: "0ms" }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-brand animate-bounce" style={{ animationDelay: "150ms" }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-brand animate-bounce" style={{ animationDelay: "300ms" }} />
         </div>
       </div>
     </div>
@@ -183,8 +183,8 @@ export default function CopilotPage() {
                 transition={{ duration: 0.3 }}
                 className="flex gap-3"
               >
-                <div className="h-8 w-8 rounded-lg bg-lime/10 flex items-center justify-center shrink-0">
-                  <Bot className="h-4 w-4 text-lime-dark" />
+                <div className="h-8 w-8 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+                  <Bot className="h-4 w-4 text-brand-strong" />
                 </div>
                 <div className="max-w-[80%] rounded-xl px-4 py-3 bg-surface border border-border-default text-foreground">
                   <div className="space-y-1">{formatMessage(welcomeMessage)}</div>
@@ -200,14 +200,14 @@ export default function CopilotPage() {
                 className={`flex gap-3 ${msg.role === "user" ? "justify-end" : ""}`}
               >
                 {msg.role === "assistant" && (
-                  <div className="h-8 w-8 rounded-lg bg-lime/10 flex items-center justify-center shrink-0">
-                    <Bot className="h-4 w-4 text-lime-dark" />
+                  <div className="h-8 w-8 rounded-lg bg-brand/10 flex items-center justify-center shrink-0">
+                    <Bot className="h-4 w-4 text-brand-strong" />
                   </div>
                 )}
                 <div
                   className={`max-w-[80%] rounded-xl px-4 py-3 ${
                     msg.role === "user"
-                      ? "bg-lime text-white"
+                      ? "bg-brand text-white"
                       : "bg-surface border border-border-default text-foreground"
                   }`}
                 >
@@ -223,7 +223,7 @@ export default function CopilotPage() {
                             aria-label={t("rateHelpful")}
                             className={`p-1.5 rounded-md transition-colors ${
                               msg.rating === 1
-                                ? "bg-lime/15 text-lime-dark"
+                                ? "bg-brand/15 text-brand-strong"
                                 : "hover:bg-surface-elevated text-text-muted"
                             }`}
                           >
@@ -281,7 +281,7 @@ export default function CopilotPage() {
                   key={s}
                   onClick={() => handleSend(s)}
                   disabled={loading}
-                  className="text-xs bg-surface-elevated hover:bg-lime/10 text-text-secondary hover:text-lime-dark px-3 py-1.5 rounded-full border border-border-default transition-colors"
+                  className="text-xs bg-surface-elevated hover:bg-brand/10 text-text-secondary hover:text-brand-strong px-3 py-1.5 rounded-full border border-border-default transition-colors"
                 >
                   {s}
                 </button>
@@ -298,12 +298,12 @@ export default function CopilotPage() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   placeholder={t("inputPlaceholder")}
-                  className="flex-1 rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-lime/50 focus:border-lime"
+                  className="flex-1 rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand"
                 />
                 <button
                   onClick={() => handleSend()}
                   disabled={!input.trim() || loading}
-                  className="bg-lime hover:bg-lime-dark text-white font-semibold px-5 py-3 rounded-xl transition-all disabled:opacity-50 inline-flex items-center gap-2"
+                  className="bg-brand hover:bg-brand-strong text-white font-semibold px-5 py-3 rounded-xl transition-all disabled:opacity-50 inline-flex items-center gap-2"
                 >
                   <Send className="h-4 w-4" />
                   <span className="hidden sm:inline text-sm">{t("send")}</span>

@@ -34,7 +34,7 @@ export default function SettingsLayout({
                 href={item.href}
                 className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-lime/10 text-lime"
+                    ? "bg-brand/10 text-brand"
                     : "text-text-secondary hover:text-foreground hover:bg-surface-elevated"
                 }`}
               >

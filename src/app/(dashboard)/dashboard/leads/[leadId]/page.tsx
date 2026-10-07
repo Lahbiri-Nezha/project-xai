@@ -212,7 +212,7 @@ export default function LeadDetailPage({
           <button
             onClick={() => rescore.mutate({ id: leadId })}
             disabled={rescore.isPending}
-            className="flex items-center gap-2 bg-lime/10 text-lime-dark px-4 py-2 rounded-lg text-sm font-medium hover:bg-lime/20 transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 bg-brand/10 text-brand-strong px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand/20 transition-colors disabled:opacity-50"
           >
             <RefreshCw className={`h-4 w-4 ${rescore.isPending ? "animate-spin" : ""}`} />
             {t("rescore")}
@@ -220,7 +220,7 @@ export default function LeadDetailPage({
           <button
             onClick={() => setVerification.mutate({ id: leadId, verification: "VERIFIED" })}
             disabled={setVerification.isPending || verified}
-            className="flex items-center gap-2 bg-surface-elevated text-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-lime/10 hover:text-lime-dark transition-colors disabled:opacity-40"
+            className="flex items-center gap-2 bg-surface-elevated text-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand/10 hover:text-brand-strong transition-colors disabled:opacity-40"
           >
             <BadgeCheck className="h-4 w-4" />
             {verified ? t("verified") : t("verify")}
@@ -268,7 +268,7 @@ export default function LeadDetailPage({
                 </span>
               </div>
               <div className="flex items-end gap-4 mb-6">
-                <div className="text-5xl font-bold font-data text-lime-dark">
+                <div className="text-5xl font-bold font-data text-brand-strong">
                   {Math.round(lead.score)}
                 </div>
                 <div className="pb-1">
@@ -277,9 +277,9 @@ export default function LeadDetailPage({
                 </div>
               </div>
               {explanation && (
-                <div className="mb-6 rounded-lg bg-lime/5 border border-lime/20 p-4">
+                <div className="mb-6 rounded-lg bg-brand/5 border border-brand/20 p-4">
                   <p className="text-xs leading-relaxed text-foreground">
-                    <span className="font-bold text-lime-dark">{t("whyPriority")}</span>
+                    <span className="font-bold text-brand-strong">{t("whyPriority")}</span>
                     {explanation}
                   </p>
                 </div>
@@ -294,13 +294,13 @@ export default function LeadDetailPage({
                     <div key={factor.name ?? "factor"}>
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-xs font-medium text-foreground">{factor.name}</span>
-                        <span className="text-xs font-bold font-data text-lime-dark">
+                        <span className="text-xs font-bold font-data text-brand-strong">
                           {factor.contribution != null ? Math.round(factor.contribution) : "—"}
                         </span>
                       </div>
                       <div className="h-1.5 rounded-full bg-surface-elevated overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-lime"
+                          className="h-full rounded-full bg-brand"
                           style={{ width: `${Math.min(100, factor.contribution ?? 0)}%` }}
                         />
                       </div>
@@ -351,7 +351,7 @@ export default function LeadDetailPage({
                         </p>
                         <p className="text-[10px] text-text-muted">{signal.value}</p>
                       </div>
-                      <span className="text-xs font-bold font-data text-lime-dark">
+                      <span className="text-xs font-bold font-data text-brand-strong">
                         x{signal.weight}
                       </span>
                     </div>
@@ -401,7 +401,7 @@ export default function LeadDetailPage({
                       {lead.company.techStack.map((tech) => (
                         <span
                           key={tech}
-                          className="inline-flex items-center rounded-md bg-lime/10 px-2 py-0.5 text-[10px] font-medium text-lime-dark"
+                          className="inline-flex items-center rounded-md bg-brand/10 px-2 py-0.5 text-[10px] font-medium text-brand-strong"
                         >
                           {tech}
                         </span>
@@ -414,7 +414,7 @@ export default function LeadDetailPage({
 
             <div className="rounded-xl bg-surface border border-border p-6">
               <h3 className="text-sm font-bold text-foreground mb-4">{t("aiRecommendation")}</h3>
-              <div className="rounded-lg bg-lime/5 border border-lime/15 p-4">
+              <div className="rounded-lg bg-brand/5 border border-brand/15 p-4">
                 <p className="text-xs leading-relaxed text-text-secondary">
                   {lead.score >= 70
                     ? t("recHigh", { score: Math.round(lead.score), count: lead.signals.length })
@@ -439,7 +439,7 @@ export default function LeadDetailPage({
 
             <div className="rounded-xl bg-surface border border-border p-6">
               <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
-                <History className="h-4 w-4 text-lime-dark" />
+                <History className="h-4 w-4 text-brand-strong" />
                 {t("accessLog")}
               </h3>
               {accessLogs.length === 0 ? (

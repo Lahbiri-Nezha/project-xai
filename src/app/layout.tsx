@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { Inter, Playfair_Display, Amiri } from "next/font/google";
+import MotionProvider from "@/components/shared/MotionProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -53,11 +54,11 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
-      className={`${inter.variable} ${playfair.variable} ${amiri.variable} h-full dark`}
+      className={`${inter.variable} ${playfair.variable} ${amiri.variable} h-full`}
     >
       <body className="min-h-full flex flex-col font-sans">
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <MotionProvider>{children}</MotionProvider>
         </NextIntlClientProvider>
       </body>
     </html>
