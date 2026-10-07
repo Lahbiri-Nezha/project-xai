@@ -5,7 +5,7 @@ test("prospector : la recherche en langage naturel affiche des comptes", async (
 
   const comptesTab = page.getByRole("button", { name: /Comptes/ });
   await expect(comptesTab).toBeVisible();
-  await expect(comptesTab).toHaveClass(/bg-lime/);
+  await expect(comptesTab).toHaveClass(/bg-brand/);
 
   const input = page.getByPlaceholder(/Recherche en langage naturel/);
   await input.fill("PME logistique à Casablanca qui recrutent");
