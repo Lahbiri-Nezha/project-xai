@@ -22,6 +22,20 @@ type PersistedMessage = {
   rating: number | null;
 };
 
+// Message tel que stocké par Prisma, en version minimale suffisante pour
+// fusionner un échange dans le cache (rôle littéral, horodatage ISO).
+// Interface locale volontairement : dériver le type exact via
+// inferRouterOutputs fait exploser l'instanciation TS (Json récursif).
+interface CachedChatMessage {
+  id: string;
+  chatId: string;
+  role: "USER" | "ASSISTANT" | "SYSTEM" | "TOOL";
+  content: string;
+  toolCalls: null;
+  rating: null;
+  createdAt: string;
+}
+
 function formatMessage(content: string): React.ReactNode[] {
   return content.split("\n").map((line, i) => {
     if (line.startsWith("**") && line.endsWith("**")) {
@@ -60,6 +74,7 @@ export default function CopilotPage() {
   const welcomeMessage = t("welcome");
   const listChats = trpc.copilot.listChats.useQuery(undefined, { retry: false });
   const rateMessage = trpc.copilot.rateMessage.useMutation();
+  const utils = trpc.useUtils();
 
   const [chatIdOverride, setChatIdOverride] = useState<string | null>(null);
   const [ephemeral, setEphemeral] = useState<Message[]>([]);
@@ -142,16 +157,60 @@ export default function CopilotPage() {
           res.headers.get("X-Copilot-Chat-Id") ?? activeChatId ?? null;
         setChatIdOverride(replyChatId);
         setHydrated(true);
-        if (replyChatId && replyChatId === activeChatId) {
-          // On ne masque l'échange éphémère qu'une fois l'historique
-          // rechargé avec succès : si le refetch échoue (réseau ou base
-          // transitoire), la réponse reste visible au lieu de disparaître
-          // sans laisser de trace.
-          const refreshed = await history.refetch().catch(() => null);
-          if (refreshed && !refreshed.isError) {
-            setEphemeral([]);
+        // Fusion déterministe dans le cache React Query plutôt qu'un
+        // refetch réseau : le serveur a déjà persisté l'échange, donc
+        // l'affichage ne dépend plus d'un aller-retour qui peut échouer
+        // ou résoudre avec des données périmées (vu en CI : la réponse
+        // streamée disparaissait alors de l'écran sans laisser de trace).
+        if (replyChatId) {
+          const now = new Date().toISOString();
+          const userMsg: CachedChatMessage = {
+            id: `local-user-${assistantId}`,
+            chatId: replyChatId,
+            role: "USER",
+            content,
+            toolCalls: null,
+            rating: null,
+            createdAt: now,
+          };
+          const assistantMsg: CachedChatMessage = {
+            id: `local-assistant-${assistantId}`,
+            chatId: replyChatId,
+            role: "ASSISTANT",
+            content: acc,
+            toolCalls: null,
+            rating: null,
+            createdAt: now,
+          };
+          const current = utils.copilot.getChat.getData({ chatId: replyChatId });
+          if (current) {
+            // setData tel que typé par tRPC fait exploser l'instanciation
+            // TS (Json récursif de Prisma) : signature resserrée
+            // localement — la forme réelle en cache est compatible.
+            const setChatData = utils.copilot.getChat.setData as unknown as (
+              input: { chatId: string },
+              updater: (
+                old:
+                  | { messages: CachedChatMessage[]; [key: string]: unknown }
+                  | null
+                  | undefined
+              ) =>
+                | { messages: CachedChatMessage[]; [key: string]: unknown }
+                | null
+                | undefined
+            ) => void;
+            setChatData({ chatId: replyChatId }, (old) => {
+              if (!old) return old;
+              return {
+                ...old,
+                messages: [...old.messages, userMsg, assistantMsg],
+              };
+            });
           }
-        } else {
+          // Chat déjà en cache : l'échange fusionné est affiché.
+          // Nouveau chat : la requête fraîche (déclenchée par le
+          // changement d'activeChatId) charge l'historique — on masque
+          // quand même l'éphémère pour éviter tout doublon à son arrivée.
           setEphemeral([]);
         }
       } catch (err) {
@@ -167,7 +226,7 @@ export default function CopilotPage() {
         setLoading(false);
       }
     },
-    [activeChatId, input, loading, history, t, setInput]
+    [activeChatId, input, loading, t, setInput, utils]
   );
 
   const handleRating = async (message: Message, rating: number) => {
