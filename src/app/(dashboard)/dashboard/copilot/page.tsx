@@ -82,6 +82,11 @@ export default function CopilotPage() {
   const [loading, setLoading] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  // Compteur pour des clés stables sur les messages éphémères : avec
+  // key={index}, chaque élagage décale les clés et React remonte les
+  // nœuds (perte d'état DOM, animations relancées).
+  const ephemeralSeq = useRef(0);
+  const nextEphemeralId = () => `ephemeral-${++ephemeralSeq.current}`;
 
   const activeChatId = chatIdOverride ?? listChats.data?.[0]?.id ?? undefined;
 
@@ -139,12 +144,12 @@ export default function CopilotPage() {
         ...prev.filter((m) =>
           keep(m.role === "user" ? "USER" : "ASSISTANT", m.content)
         ),
-        { role: "user", content },
+        { id: nextEphemeralId(), role: "user", content },
       ]);
       setInput("");
       setLoading(true);
 
-      const assistantId = `stream-${Date.now()}`;
+      const assistantId = nextEphemeralId();
       setEphemeral((prev) => [
         ...prev,
         { id: assistantId, role: "assistant", content: "", streaming: true },
@@ -209,8 +214,7 @@ export default function CopilotPage() {
             toolCalls: null,
             rating: null,
             createdAt: now,
-          };
-          const current = utils.copilot.getChat.getData({ chatId: replyChatId });
+          };          const current = utils.copilot.getChat.getData({ chatId: replyChatId });
           if (current) {
             // setData tel que typé par tRPC fait exploser l'instanciation
             // TS (Json récursif de Prisma) : signature resserrée

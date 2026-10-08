@@ -34,8 +34,13 @@ async function ask(ctx: AskCtx, text: string): Promise<void> {
 }
 
 async function expectLastAnswer(ctx: AskCtx, re: RegExp): Promise<void> {
-  const last = ctx.page.locator(".max-w-3xl.space-y-4 > div.flex.gap-3").last();
-  await expect(last).toContainText(re, { timeout: 60_000 });
+  // On cherche parmi les bulles qui CONTIENNENT le motif plutôt que
+  // la dernière bulle : un indicateur de frappe ou une bulle vide
+  // transitoire en fin de liste ne doit pas faire échouer l'assertion.
+  const matching = ctx.page
+    .locator(".max-w-3xl.space-y-4 > div.flex.gap-3")
+    .filter({ hasText: re });
+  await expect(matching.last()).toBeVisible({ timeout: 60_000 });
 }
 
 test("copilot: explique majda -> explication specifique (pas la liste)", async ({ page }) => {
