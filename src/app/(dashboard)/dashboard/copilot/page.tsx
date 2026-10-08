@@ -1,7 +1,7 @@
 "use client";
 
 import TopBar from "@/components/dashboard/TopBar";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Bot, User, Sparkles, ThumbsUp, ThumbsDown } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -89,9 +89,27 @@ export default function CopilotPage() {
     { chatId: activeChatId ?? "" },
     { enabled: !!activeChatId, retry: false }
   );
-  const persisted = (history.data as unknown as {
-    messages: PersistedMessage[];
-  } | null)?.messages ?? [];
+  const persisted = useMemo(
+    () =>
+      (history.data as unknown as {
+        messages: PersistedMessage[];
+      } | null)?.messages ?? [],
+    [history.data]
+  );
+
+  // Déduplication contenu : un message éphémère déjà repris dans
+  // l'historique persisté est masqué (pas de doublon), sinon il reste
+  // affiché. Invariant : une réponse streamée ne disparaît jamais de
+  // l'écran, même si le rechargement d'historique échoue ou tarde.
+  const persistedKeys = new Set(
+    persisted.map((m) => `${m.role}:${m.content}`)
+  );
+  const visibleEphemeral = ephemeral.filter(
+    (m) =>
+      !persistedKeys.has(
+        `${m.role === "user" ? "USER" : "ASSISTANT"}:${m.content}`
+      )
+  );
 
   const allMessages: Message[] = [
     ...persisted.map((m) => ({
@@ -100,7 +118,7 @@ export default function CopilotPage() {
       content: m.content,
       rating: m.rating,
     })),
-    ...ephemeral,
+    ...visibleEphemeral,
   ];
 
   useEffect(() => {
@@ -112,7 +130,17 @@ export default function CopilotPage() {
       const content = (text || input).trim();
       if (!content || loading) return;
 
-      setEphemeral((prev) => [...prev, { role: "user", content }]);
+      // Élagage : on retire les éphémères déjà repris dans le persisté
+      // (l'affichage les déduplique de toute façon, voir visibleEphemeral).
+      const covered = new Set(persisted.map((m) => `${m.role}:${m.content}`));
+      const keep = (role: string, text: string) =>
+        !covered.has(`${role}:${text}`);
+      setEphemeral((prev) => [
+        ...prev.filter((m) =>
+          keep(m.role === "user" ? "USER" : "ASSISTANT", m.content)
+        ),
+        { role: "user", content },
+      ]);
       setInput("");
       setLoading(true);
 
@@ -207,11 +235,12 @@ export default function CopilotPage() {
               };
             });
           }
-          // Chat déjà en cache : l'échange fusionné est affiché.
+          // Chat déjà en cache : l'échange fusionné est affiché, l'éphémère
+          // redondant est masqué par la déduplication (visibleEphemeral).
           // Nouveau chat : la requête fraîche (déclenchée par le
-          // changement d'activeChatId) charge l'historique — on masque
-          // quand même l'éphémère pour éviter tout doublon à son arrivée.
-          setEphemeral([]);
+          // changement d'activeChatId) charge l'historique ; en
+          // attendant, l'éphémère reste affiché — aucune réponse ne
+          // disparaît, et aucun doublon n'apparaît à l'arrivée.
         }
       } catch (err) {
         const msg = err instanceof Error ? err.message : t("unknownError");
@@ -226,7 +255,7 @@ export default function CopilotPage() {
         setLoading(false);
       }
     },
-    [activeChatId, input, loading, t, setInput, utils]
+    [activeChatId, input, loading, persisted, t, setInput, utils]
   );
 
   const handleRating = async (message: Message, rating: number) => {
