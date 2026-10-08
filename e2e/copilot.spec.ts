@@ -11,6 +11,14 @@ async function openCopilot(page: Page): Promise<AskCtx> {
   await page.goto("/dashboard/copilot");
   const input = page.getByPlaceholder(/Posez une question/);
   await expect(input).toBeVisible({ timeout: 30_000 });
+  // Attendre la fin compilation/hydratation/chargement : le premier bloc
+  // de contenu (historique ou message d'accueil) est rendu. Sans cela, une
+  // interaction pendant que le serveur dev compile encore peut voir son
+  // état jeté par un remplacement de module (envoi perdu, réponse jamais
+  // affichée) — flake observé en CI sur ce spec.
+  await expect(
+    page.locator(".max-w-3xl.space-y-4 > div.flex.gap-3").first()
+  ).toBeVisible({ timeout: 30_000 });
   const container = page.locator(".flex-1.overflow-auto");
   const sendBtn = page.getByRole("button", { name: /Envoyer/ });
   return { page, input, container, sendBtn };
