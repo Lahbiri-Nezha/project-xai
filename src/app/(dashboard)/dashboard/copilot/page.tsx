@@ -142,9 +142,17 @@ export default function CopilotPage() {
           res.headers.get("X-Copilot-Chat-Id") ?? activeChatId ?? null;
         setChatIdOverride(replyChatId);
         setHydrated(true);
-        setEphemeral([]);
         if (replyChatId && replyChatId === activeChatId) {
-          history.refetch().catch(() => {});
+          // On ne masque l'échange éphémère qu'une fois l'historique
+          // rechargé avec succès : si le refetch échoue (réseau ou base
+          // transitoire), la réponse reste visible au lieu de disparaître
+          // sans laisser de trace.
+          const refreshed = await history.refetch().catch(() => null);
+          if (refreshed && !refreshed.isError) {
+            setEphemeral([]);
+          }
+        } else {
+          setEphemeral([]);
         }
       } catch (err) {
         const msg = err instanceof Error ? err.message : t("unknownError");
